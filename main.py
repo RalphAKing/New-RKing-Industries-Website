@@ -26,16 +26,6 @@ import asyncio
 
 #Beehive api commands
 
-
-import requests
-import jwt
-from datetime import datetime
-import os
-import urllib.request
-from PIL import Image
-import aiohttp
-import asyncio
-
 class BeehiveAPI:
     def __init__(self, token=None, user_id=None):
         self.token = token
