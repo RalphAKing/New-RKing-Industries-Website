@@ -172,8 +172,6 @@ async def portfolio(request: Request):
 
 
 
-
-
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
     return JSONResponse(
@@ -227,7 +225,5 @@ if __name__ == "__main__":
         log_level="info"
     )
 else:
-    # Production settings
-    # When running in production, use:
-    # uvicorn main:app --host 0.0.0.0 --port 8000 --workers 4 --log-level warning
+    # uvicorn main:app --host 0.0.0.0 --port 8000 --workers 10 --log-level warning
     pass
