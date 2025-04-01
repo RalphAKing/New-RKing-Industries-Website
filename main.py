@@ -154,6 +154,26 @@ async def home_page(request: Request):
     response.headers["Cache-Control"] = "public, max-age=300" 
     return response
 
+@app.get("/portfolio", response_class=HTMLResponse)
+async def portfolio(request: Request):
+    response = templates.TemplateResponse(
+        "portfolio.html", 
+        {"request": request, "title": "Portfolio"}
+    )
+    response.headers["Cache-Control"] = "public, max-age=600" 
+    return response
+
+
+
+
+
+
+
+
+
+
+
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
     return JSONResponse(
