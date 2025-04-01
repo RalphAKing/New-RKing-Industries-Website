@@ -344,18 +344,18 @@ class BeehiveAPI:
                         for j in i['files']:
                             if j['extension'] in ['.png', '.jpeg', '.jpg']:
                                 images.append(j['id'])
-                                if not os.path.isfile(f'static/beehive/{j["id"]}.webp'):
+                                if not os.path.isfile(f'static/fasthive/noticeboard/{j["id"]}.webp'):
                                     # Note: Using synchronous file operations here
                                     # For fully async, you'd need to use aiofiles and other async libraries
                                     image_url = f'https://beehiveapi.lionhearttrust.org.uk/v3.5/files/images/{j["id"]}'
-                                    save_as = f'static/beehive/{j["id"]}.jpg'
+                                    save_as = f'static/fasthive/noticeboard/{j["id"]}.jpg'
                                     
                                     # Download image (synchronous)
                                     urllib.request.urlretrieve(image_url, save_as)
                                     
                                     # Process image (synchronous)
                                     jpg_image = Image.open(save_as)
-                                    jpg_image.save(f'static/beehive/{j["id"]}.webp', 'WEBP', quality=50)
+                                    jpg_image.save(f'static/fasthive/noticeboard/{j["id"]}.webp', 'WEBP', quality=50)
                                     os.remove(save_as)
                                     
                         parsed_data.append({
@@ -431,9 +431,6 @@ class BeehiveAPI:
     def from_token(cls, token, user_id):
         """Create a BeehiveAPI instance from token and user_id"""
         return cls(token, user_id)
-
-
-import asyncio
 
 async def main():
     # Authenticate and get token and user_id
@@ -586,11 +583,13 @@ async def general_exception_handler(request, exc):
 @app.get("/{full_path:path}", response_class=HTMLResponse)
 async def catch_all(request: Request, full_path: str):
     logger.warning(f"404 Not Found: {request.url.path}")
-    return templates.TemplateResponse(
-        "404.html",
+    response = templates.TemplateResponse(
+        "404.html", 
         {"request": request, "path": full_path},
         status_code=404
     )
+    response.headers["Cache-Control"] = "public, max-age=300" 
+    return response
 
 if __name__ == "__main__":
     # Development settings
