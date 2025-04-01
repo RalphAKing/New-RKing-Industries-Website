@@ -1,157 +1,147 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Page not found. The requested page does not exist or has been moved.">
-  <title>404 - Page Not Found</title>
-  <style>
-    :root {
-      --primary: #0056b3;
-      --text: #333333;
-      --bg: #ffffff;
-      --dot: rgba(0, 0, 0, 0.08);
-      --container-bg: #ffffff;
-      
-      /* Button colors with verified contrast ratios */
-      --btn-bg: #0050a0;      /* Dark blue with 5.5:1 contrast against white */
-      --btn-hover: #003b75;   /* Even darker blue with 7:1 contrast against white */
-      --btn-text: #ffffff;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, 
-                   Oxygen-Sans, Ubuntu, Cantarell, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 1rem;
-      position: relative;
-      overflow: hidden;
-    }
-    .bg-pattern {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-image: radial-gradient(var(--dot) 1px, transparent 1px);
-      background-size: 30px 30px;
-      z-index: -1;
-    }
-    .container {
-      max-width: 500px;
-      text-align: center;
-      background: var(--container-bg);
-      padding: 2rem;
-      border-radius: 8px;
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
-      position: relative;
-      z-index: 1;
-    }
-    h1 {
-      font-size: 8rem;
-      margin-bottom: 0;
-      color: var(--primary);
-      line-height: 1;
-      position: relative;
-    }
-    h2 {
-      font-size: 2rem;
-      font-weight: 500;
-      margin-bottom: 1rem;
-      color: var(--text);
-    }
-    p {
-      margin-bottom: 1.5rem;
-      font-size: 1.1rem;
-      color: var(--text);
-    }
-    .btn {
-      display: inline-block;
-      background: var(--btn-bg);
-      color: var(--btn-text);
-      padding: 0.8rem 1.5rem;
-      text-decoration: none;
-      border-radius: 4px;
-      font-weight: 700;
-      transition: transform 0.2s, background-color 0.2s;
-    }
-    .btn:hover {
-      background-color: var(--btn-hover);
-      transform: translateY(-2px);
-    }
-    /* Pre-apply animations with initial state of paused */
-    #error-code {
-      animation: float 4s ease-in-out infinite;
-      animation-play-state: paused;
-    }
-    #bg-pattern {
-      animation: drift 20s ease-in-out infinite;
-      animation-play-state: paused;
-    }
-    @media (prefers-color-scheme: dark) {
-      :root {
-        --primary: #4dabf7;
-        --text: #f1f3f5;
-        --bg: #121212;
-        --dot: rgba(255, 255, 255, 0.08);
-        --container-bg: #1e1e1e;
-        
-        /* Dark mode button colors with verified contrast ratios */
-        --btn-bg: #0070cc;    /* Bright blue with 4.6:1 contrast against white */
-        --btn-hover: #005aa3; /* Slightly darker blue with 5.5:1 contrast against white */
-      }
-    }
-    /* Animation styles */
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
-    }
-    @keyframes drift {
-      0% { transform: translate(0, 0); }
-      50% { transform: translate(-5px, -5px); }
-      100% { transform: translate(0, 0); }
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>404 - Page Not Found | RKing Industries</title>
+    <link rel="icon" href="../static/logo.png" type="image/icon type">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #2563eb;
+            --text-color: #f8fafc;
+            --gradient-bg: linear-gradient(135deg, #1e293b, #0f172a);
+            --gradient-text: linear-gradient(45deg, #60a5fa, #3b82f6);
+        }
+
+        /* General Styles */
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Poppins', sans-serif;
+            height: 100vh;
+            background: var(--gradient-bg);
+            color: var(--text-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+
+        .container {
+            text-align: center;
+            padding: 2rem;
+            position: relative;
+        }
+
+        /* Error Code Styles */
+        .error-code {
+            font-size: 150px;
+            font-weight: 700;
+            margin: 0;
+            background: var(--gradient-text);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        /* Error Message Styles */
+        .error-message {
+            font-size: 2rem;
+            margin: 1rem 0;
+            font-weight: 300;
+        }
+
+        .error-description {
+            font-size: 1.1rem;
+            margin: 1rem 0 2rem;
+            opacity: 0.8;
+        }
+
+        /* Button Styles */
+        .home-button {
+            display: inline-block;
+            padding: 1rem 2rem;
+            background: var(--primary-color);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .home-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
+        }
+
+        /* Particle Styles */
+        .particles {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .particle {
+            position: absolute;
+            background: #ffffff10;
+            border-radius: 50%;
+            animation: moveParticle 8s infinite linear;
+        }
+
+        /* Animations */
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes moveParticle {
+            0% { transform: translateY(100vh) translateX(-10px); }
+            100% { transform: translateY(-100px) translateX(10px); }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 768px) {
+            .error-code {
+                font-size: 100px;
+            }
+
+            .error-message {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
 </head>
 <body>
-  <div class="bg-pattern" id="bg-pattern"></div>
-  <div class="container">
-    <h1 id="error-code">404</h1>
-    <h2>Page Not Found</h2>
-    <p>The page you are looking for doesn't exist or has been moved.</p>
-    <a href="/" class="btn">Go Home</a>
-  </div>
-  
-  <script>
-    // Safer approach to DOM manipulation
-    document.addEventListener('DOMContentLoaded', function() {
-      try {
-        // Check if elements exist before manipulating them
-        const errorCode = document.getElementById('error-code');
-        const bgPattern = document.getElementById('bg-pattern');
-        
-        if (errorCode) {
-          errorCode.style.animationPlayState = 'running';
-        }
-        
-        if (bgPattern) {
-          bgPattern.style.animationPlayState = 'running';
-        }
-      } catch (error) {
-        // Silently handle any errors to prevent console errors
-        console.error('Animation initialization error:', error);
-      }
-    });
-  </script>
+    <div class="particles" id="particles"></div>
+    <main class="container">
+        <h1 class="error-code">404</h1>
+        <h2 class="error-message">Page Not Found</h2>
+        <p class="error-description">The page you're looking for seems to have vanished into the digital void.</p>
+        <a href="/" class="home-button">Return Home</a>
+    </main>
+
+    <script>
+        const createParticles = () => {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 50;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+
+                const size = Math.random() * 4 + 2;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${Math.random() * 100}%`;
+                particle.style.animationDuration = `${Math.random() * 8 + 4}s`;
+
+                particlesContainer.appendChild(particle);
+            }
+        };
+
+        createParticles();
+    </script>
 </body>
 </html>

@@ -432,20 +432,20 @@ class BeehiveAPI:
         """Create a BeehiveAPI instance from token and user_id"""
         return cls(token, user_id)
 
-async def main():
-    # Authenticate and get token and user_id
-    token, user_id = await BeehiveAPI.from_credentials("username", "password")
+# async def main():
+#     # Authenticate and get token and user_id
+#     token, user_id = await BeehiveAPI.from_credentials("username", "password")
     
-    if token and user_id:
-        print(f"Authentication successful!")
-        print(f"Token: {token[:20]}...") # Only show beginning of token for security
-        print(f"User ID: {user_id}")
-    else:
-        print("Authentication failed")
+#     if token and user_id:
+#         print(f"Authentication successful!")
+#         print(f"Token: {token[:20]}...") # Only show beginning of token for security
+#         print(f"User ID: {user_id}")
+#     else:
+#         print("Authentication failed")
 
-# Run the async function
-if __name__ == "__main__":
-    asyncio.run(main())
+# # Run the async function
+# if __name__ == "__main__":
+#     asyncio.run(main())
 
 
 
