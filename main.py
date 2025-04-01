@@ -23,6 +23,7 @@ import aiohttp
 import asyncio
 import asyncpg
 from dotenv import load_dotenv
+import aiofiles
 
 load_dotenv()
 
@@ -348,20 +349,27 @@ class BeehiveAPI:
                         for j in i['files']:
                             if j['extension'] in ['.png', '.jpeg', '.jpg']:
                                 images.append(j['id'])
-                                if not os.path.isfile(f'static/fasthive/noticeboard/{j["id"]}.webp'):
-                                    # Note: Using synchronous file operations here
-                                    # For fully async, you'd need to use aiofiles and other async libraries
-                                    image_url = f'https://beehiveapi.lionhearttrust.org.uk/v3.5/files/images/{j["id"]}'
-                                    save_as = f'static/fasthive/noticeboard/{j["id"]}.jpg'
-                                    
-                                    # Download image (synchronous)
-                                    urllib.request.urlretrieve(image_url, save_as)
-                                    
-                                    # Process image (synchronous)
-                                    jpg_image = Image.open(save_as)
-                                    jpg_image.save(f'static/fasthive/noticeboard/{j["id"]}.webp', 'WEBP', quality=50)
-                                    os.remove(save_as)
-                                    
+                                webp_path = f'static/fasthive/noticeboard/{j["id"]}.webp'
+                                jpg_path = f'static/fasthive/noticeboard/{j["id"]}.jpg'
+                                image_url = f'https://beehiveapi.lionhearttrust.org.uk/v3.5/files/images/{j["id"]}'
+
+                                if not os.path.isfile(webp_path):
+                                    async with aiohttp.ClientSession() as session:
+                                        async with session.get(image_url) as response:
+                                            if response.status == 200:
+                                                async with aiofiles.open(jpg_path, mode='wb') as f:
+                                                    await f.write(await response.read())
+                                            else:
+                                                raise Exception(f"Failed to download image: {response.status}")
+
+                                    jpg_image = Image.open(jpg_path)
+                                    jpg_image.save(webp_path, 'WEBP', quality=50)
+
+                                    try:
+                                        await aiofiles.os.remove(jpg_path)
+                                    except FileNotFoundError:
+                                        pass
+                                                                
                         parsed_data.append({
                             'title': i['title'],
                             'content': i['content'],
