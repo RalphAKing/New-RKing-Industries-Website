@@ -21,6 +21,10 @@ import urllib.request
 from PIL import Image
 import aiohttp
 import asyncio
+import asyncpg
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 
@@ -447,17 +451,35 @@ class BeehiveAPI:
 # if __name__ == "__main__":
 #     asyncio.run(main())
 
-
-
 #------------------
+
+# Global variable for database connection
+db_connection = None
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    # Startup: Initialize resources
+    global db_connection
     print("Starting up application...")
-    # Initialize database connections, load models
+
+    # Initialize database connection
+    try:
+        db_connection = await asyncpg.connect(
+            host=os.getenv("DB_HOST"),
+            port=int(os.getenv("DB_PORT")),
+            user=os.getenv("DB_USER"),
+            password=os.getenv("DB_PASSWORD"),
+            database=os.getenv("DB_NAME")
+        )
+        print("Database connection established.")
+    except Exception as e:
+        print(f"Error connecting to the database: {e}")
+        db_connection = None
+
     yield
-    # Shutdown: Clean up resources
+
+    if db_connection:
+        await db_connection.close()
+        print("Database connection closed.")
     print("Shutting down application...")
 
 app = FastAPI(
@@ -524,7 +546,19 @@ rate_limiter = RateLimiter()
 async def health_check():
     return {"status": "healthy"}
 
-# Define your routes
+@app.get("/db-test")
+async def db_test():
+    """Test database connection by running a simple query."""
+    global db_connection
+    if not db_connection:
+        raise HTTPException(status_code=500, detail="Database connection not initialized.")
+    
+    try:
+        rows = await db_connection.fetch("SELECT version();")
+        return {"status": "success", "db_version": rows[0]['version']}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Database query failed: {e}")
+
 @app.get("/", response_class=HTMLResponse)
 async def home_page(request: Request):
     response = templates.TemplateResponse(
@@ -533,20 +567,6 @@ async def home_page(request: Request):
     )
     response.headers["Cache-Control"] = "public, max-age=300" 
     return response
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
