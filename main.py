@@ -172,6 +172,10 @@ async def portfolio(request: Request):
 
 
 
+
+
+
+
 @app.exception_handler(RequestValidationError)
 async def validation_exception_handler(request, exc):
     return JSONResponse(
