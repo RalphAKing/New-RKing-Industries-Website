@@ -1,9 +1,22 @@
-
-# RKing Industries 
+# RKing Industries Website
 
 ## Overview
 
-This project provides a website built with FastAPI for accessing various data points, including integration with the Beehive API. It includes features such as database connectivity, rate limiting, error logging, and static file serving.
+This project provides a modern, optimized website built with FastAPI for RKing Industries. It features integration with the Beehive API (Lion Heart Trust's school management system), database connectivity, rate limiting, error logging, and static file serving.
+
+## Table of Contents
+
+- [Project Structure](#project-structure)
+- [Features](#features)
+- [Installation](#installation)
+- [Configuration](#configuration)
+- [Running the Application](#running-the-application)
+- [API Endpoints](#api-endpoints)
+- [Beehive API Integration](#beehive-api-integration)
+- [Database](#database)
+- [Error Handling and Logging](#error-handling-and-logging)
+- [Production Deployment](#production-deployment)
+- [Contributing](#contributing)
 
 ## Project Structure
 
@@ -11,248 +24,165 @@ This project provides a website built with FastAPI for accessing various data po
 .
 ├── beehive_api.py   # Module for interacting with the Beehive API
 ├── main.py          # Main FastAPI application
-├── README.md        # This file
+├── README.md        # Documentation
 ├── logs/            # Directory for application logs
 ├── static/          # Directory for static files (CSS, JavaScript, images)
+│   └── fasthive/    # Directory for cached Beehive API resources
+│       └── noticeboard/ # Cached and optimized noticeboard images
 ├── templates/       # Directory for Jinja2 templates
+│   ├── index.html   # Home page template
+│   ├── portfolio.html # Portfolio page template
+│   └── 404.html     # Custom 404 error page
 └── .env             # Environment variables (API keys, database credentials)
 ```
 
-## `beehive_api.py`
-
-This module contains the `BeehiveAPI` class, which handles authentication and data retrieval from the Beehive API.
-
-### Class: `BeehiveAPI`
-
-#### `__init__(self, token=None, user_id=None)`
-
-Initializes a new instance of the `BeehiveAPI` class.
-
--   `token` (str, optional): The authentication token. Defaults to `None`.
--   `user_id` (str, optional): The user ID. Defaults to `None`.
-
-#### `async def login(self, username, password, attempts=0)`
-
-Authenticates with the Beehive API using a username and password.
-
--   `username` (str): The username for authentication.
--   `password` (str): The password for authentication.
--   `attempts` (int, optional): Number of login attempts. Defaults to 0.
-
-Returns:
-
--   `True` if login is successful, `False` otherwise.
-
-#### `async def submit_assignment(self, assignment_id, attempts=0)`
-
-Submits an assignment to the Beehive API.
-
--   `assignment_id` (str): The ID of the assignment to submit.
--   `attempts` (int, optional): Number of submission attempts. Defaults to 0.
-
-Returns:
-
--   `True` if submission is successful, `False` otherwise.
-
-#### `async def get_smartcard_info(self, attempts=0)`
-
-Retrieves smartcard information from the Beehive API.
-
--   `attempts` (int, optional): Number of retrieval attempts. Defaults to 0.
-
-Returns:
-
--   `balance` (float): The balance of the smartcard.
--   `printbalance` (float): The print credit balance.
--   `transactions` (list): A list of transaction dictionaries.
-
-#### `async def get_user_stats(self, attempts=0)`
-
-Retrieves user statistics from the Beehive API.
-
--   `attempts` (int, optional): Number of retrieval attempts. Defaults to 0.
-
-Returns:
-
--   `name` (str): The user's full name.
--   `tutor_group` (str): The user's tutor group.
--   `attendance` (float): The user's attendance rate.
--   `behaviour_points` (int): The user's behavior points.
--   `reward_points` (int): The user's reward points.
--   `lates` (int): The number of times the user was late.
--   `absences` (int): The number of times the user was absent.
-
-#### `async def get_events(self, attempts=0)`
-
-Retrieves events from the Beehive API.
-
--   `attempts` (int, optional): Number of retrieval attempts. Defaults to 0.
-
-Returns:
-
--   `dict`: A dictionary of events.
-
-#### `async def get_timetable(self, attempts=0)`
-
-Retrieves the timetable from the Beehive API.
-
--   `attempts` (int, optional): Number of retrieval attempts. Defaults to 0.
-
-Returns:
-
--   `dict`: A dictionary of timetable data.
-
-#### `async def get_assignments(self, attempts=0)`
-
-Retrieves assignments from the Beehive API.
-
--   `attempts` (int, optional): Number of retrieval attempts. Defaults to 0.
-
-Returns:
-
--   `dict`: A dictionary of assignments.
-
-#### `async def get_links(self, attempts=0)`
-
-Retrieves useful links from the Beehive API.
-
--   `attempts` (int, optional): Number of retrieval attempts. Defaults to 0.
-
-Returns:
-
--   `dict`: A dictionary of links.
-
-#### `async def get_noticeboard(self, attempts=0)`
-
-Retrieves noticeboard items from the Beehive API.
-
--   `attempts` (int, optional): Number of retrieval attempts. Defaults to 0.
-
-Returns:
-
--   `list`: A list of noticeboard items.
-
-#### `@classmethod async def from_credentials(cls, username, password, attempts=0)`
-
-Authenticates with the Beehive API and returns the token and user ID.
-
--   `username` (str): The username for authentication.
--   `password` (str): The password for authentication.
--   `attempts` (int, optional): Number of login attempts. Defaults to 0.
-
-Returns:
-
--   `tuple`: A tuple containing the token and user ID.
-
-#### `@classmethod def from_token(cls, token, user_id)`
-
-Creates a `BeehiveAPI` instance from a token and user ID.
-
--   `token` (str): The authentication token.
--   `user_id` (str): The user ID.
-
-Returns:
-
--   `BeehiveAPI`: An instance of the `BeehiveAPI` class.
-
-## `main.py`
-
-This is the main file for the FastAPI application, defining the API endpoints and middleware.
-
-### Dependencies
-
--   fastapi
--   fastapi.responses
--   fastapi.staticfiles
--   fastapi.templating
--   fastapi.middleware.gzip
--   fastapi.middleware.cors
--   fastapi.exceptions
--   starlette.status
--   contextlib
--   logging
--   os
--   time
--   asyncpg
--   dotenv
--   uvicorn
--   datetime
--   traceback
--   asyncio
--   `beehive_api` (local module)
-
-### Configuration
-
--   Environment variables are loaded from a `.env` file using `dotenv`.
--   Database connection details are configured using environment variables:
-    -   `DB_HOST`
-    -   `DB_PORT`
-    -   `DB_USER`
-    -   `DB_PASSWORD`
-    -   `DB_NAME`
-
-### Features
-
--   **GZip Middleware**: Compresses responses for faster delivery.
--   **CORS Middleware**: Configures Cross-Origin Resource Sharing.
--   **Static Files**: Serves static files from the `static` directory.
--   **Jinja2 Templates**: Uses Jinja2 for rendering HTML templates from the `templates` directory.
--   **Rate Limiter**: Limits the number of requests per minute per client.
--   **Error Logging**: Logs errors to a file and the console.
--   **Exception Handling**: Custom exception handlers for validation errors, HTTP exceptions, and general exceptions.
-
-### API Endpoints
-
--   `/health`: Health check endpoint.
--   `/db-test`: Tests the database connection.
--   `/`: Home page, rendered from `templates/index.html`.
--   `/portfolio`: Portfolio page, rendered from `templates/portfolio.html`.
--   `/{full_path:path}`: Catch-all route for handling 404 errors.
-
-### Usage
-
-1.  **Install Dependencies**:
-
-    ```bash
-    pip install fastapi uvicorn aiohttp python-dotenv Jinja2 aiofiles asyncpg python-multipart
-    ```
-
-2.  **Set Up Environment Variables**:
-
-    Create a `.env` file in the project root with the following variables:
-
-    ```
-    DB_HOST=<your_db_host>
-    DB_PORT=<your_db_port>
-    DB_USER=<your_db_user>
-    DB_PASSWORD=<your_db_password>
-    DB_NAME=<your_db_name>
-    ```
-
-3.  **Run the Application**:
-
-    ```bash
-    uvicorn main:app --host 0.0.0.0 --port 8000 --reload
-    ```
-
-    -   `--host 0.0.0.0`: Binds the application to all network interfaces.
-    -   `--port 8000`: Specifies the port to listen on.
-    -   `--reload`: Enables automatic reloading on code changes (for development).
-
-### Production Deployment
-
-For production deployment, it is recommended to use a process manager like `gunicorn` or `pm2`.
-
-Example using `gunicorn`:
+## Features
+
+- **FastAPI Framework**: High-performance, easy-to-use web framework
+- **Beehive API Integration**: Comprehensive integration with the Lion Heart Trust's school management system
+- **PostgreSQL Database**: Robust database connectivity with asyncpg
+- **Rate Limiting**: Protection against abuse with per-client request limits
+- **Response Compression**: GZip middleware for faster content delivery
+- **CORS Support**: Configured Cross-Origin Resource Sharing
+- **Jinja2 Templates**: Dynamic HTML rendering
+- **Static File Serving**: Optimized delivery of CSS, JavaScript, and images
+- **Comprehensive Error Handling**: Custom exception handlers with detailed logging
+- **Image Optimization**: Automatic conversion of images to WebP format for better performance
+- **Caching Headers**: Proper cache control for improved performance
+
+## Installation
+
+### Prerequisites
+
+- Python 3.8+
+- PostgreSQL database
+
+### Install Dependencies
 
 ```bash
-gunicorn main:app --workers 10 --worker-class uvicorn.workers.UvicornWorker --host 0.0.0.0 --port 8000 --log-level warning
+pip install fastapi uvicorn aiohttp python-dotenv Jinja2 aiofiles asyncpg python-multipart python-jwt pillow
 ```
 
-## Logs
+## Configuration
 
-Application logs are stored in the `logs` directory. Each log file is named with the date of the logs to help keep things organized.
+Create a `.env` file in the project root with the following variables:
+
 ```
-logs/
-└── app_errors_YYYY-MM-DD.log
+DB_HOST=<your_db_host>
+DB_PORT=<your_db_port>
+DB_USER=<your_db_user>
+DB_PASSWORD=<your_db_password>
+DB_NAME=<your_db_name>
 ```
+
+## Running the Application
+
+### Development Mode
+
+```bash
+uvicorn main:app --host 0.0.0.0 --port 8000 --reload
+```
+
+Or simply run:
+
+```bash
+python main.py
+```
+
+### Testing
+
+To verify your setup is working correctly:
+
+1. Visit `http://localhost:8000/health` to check the application status
+2. Visit `http://localhost:8000/db-test` to verify database connectivity
+
+## API Endpoints
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/health` | GET | Health check endpoint |
+| `/db-test` | GET | Tests database connection |
+| `/` | GET | Home page |
+| `/portfolio` | GET | Portfolio page |
+| `/{full_path:path}` | GET | Catch-all route (returns 404 page) |
+
+## Beehive API Integration
+
+The `BeehiveAPI` class in `beehive_api.py` provides comprehensive integration with the Lion Heart Trust's Beehive API. It handles:
+
+- Authentication
+- User information retrieval
+- Timetable access
+- Assignment management
+- Smartcard information
+- Events and notices
+- Resource links
+
+### Authentication Methods
+
+```python
+# Authenticate with username and password
+token, user_id = await BeehiveAPI.from_credentials(username, password)
+
+# Create API instance from existing token
+api = BeehiveAPI.from_token(token, user_id)
+```
+
+### Available Methods
+
+- `login(username, password)`: Authenticate with the API
+- `get_user_stats()`: Retrieve user information
+- `get_timetable()`: Get user's class schedule
+- `get_assignments()`: Get homework assignments
+- `submit_assignment(assignment_id)`: Submit completed assignments
+- `get_smartcard_info()`: Get balance and transaction history
+- `get_events()`: Get upcoming events
+- `get_links()`: Get useful resource links
+- `get_noticeboard()`: Get school announcements
+
+## Database
+
+The application uses PostgreSQL with asyncpg for asynchronous database operations. Database connection is established during application startup and closed during shutdown.
+
+To test database connectivity:
+
+```bash
+curl http://localhost:8000/db-test
+```
+
+## Error Handling and Logging
+
+The application includes comprehensive error handling:
+
+- Validation errors (422)
+- HTTP exceptions (various status codes)
+- General exceptions (500)
+
+Logs are stored in the `logs` directory with filenames based on the current date:
+
+```
+logs/app_errors_YYYY-MM-DD.log
+```
+
+## Production Deployment
+
+For production deployment, it's recommended to use a process manager like Gunicorn:
+
+```bash
+gunicorn main:app --workers 10 --worker-class uvicorn.workers.UvicornWorker --bind 0.0.0.0:8000 --log-level warning
+```
+
+### Environment Considerations
+
+- Set appropriate number of workers based on available CPU cores
+- Configure proper logging for production
+- Set up a reverse proxy (Nginx/Apache) for SSL termination
+- Consider using Docker for containerization
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
