@@ -256,6 +256,91 @@
             transform: translateY(-3px);
         }
 
+        /* New Product Grid Styles */
+        .products-section {
+            padding: 5rem 2rem;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 1;
+        }
+
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background: rgba(30, 41, 59, 0.5);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: fadeIn 0.8s ease-in both;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 3px solid var(--primary-color);
+        }
+
+        .product-info {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .product-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .product-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            flex-grow: 1;
+        }
+
+        .product-price {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+        }
+
+        .buy-button {
+            padding: 0.8rem 1.5rem;
+            background: var(--primary-color);
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            text-align: center;
+            display: inline-block;
+            align-self: flex-start;
+        }
+
+        .buy-button:hover {
+            background: var(--secondary-color);
+            transform: translateY(-2px);
+        }
+
         @keyframes float {
             0%, 100% { transform: translateY(0); }
             50% { transform: translateY(-20px); }
@@ -321,7 +406,7 @@
                 font-size: 2rem;
             }
 
-            .team-grid {
+            .team-grid, .products-grid {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
                 gap: 1.5rem;
             }
@@ -359,11 +444,30 @@
             At RKing Industries, we specialize in cutting-edge solutions that empower businesses and individuals to thrive in a rapidly evolving digital landscape. From advanced server infrastructure to innovative 3D printing technologies, we are committed to driving the future of digital transformation.
         </p>
         <div class="cta-buttons">
-            <a href="/exploresoloutions" class="cta-button primary-cta">Explore Solutions</a>
+            <a href="#products" class="cta-button primary-cta">Explore Solutions</a>
             <a href="/contact" class="cta-button secondary-cta">Contact Us</a>
             <a href="/portfolio" class="cta-button secondary-cta">Portfolio</a>
         </div>        
     </div>
+
+    <section id="products" class="products-section">
+        <h2 class="section-title">Our Solutions</h2>
+        <div class="products-grid">
+            {% for product in products %}
+            <div class="product-card">
+                <img src="{{ product.image }}" alt="{{ product.title }}" class="product-image">
+                <div class="product-info">
+                    <h2 class="product-title">{{ product.title }}</h2>
+                    <p class="product-description">{{ product.description }}</p>
+                    {% if product.price != 'Free' %}
+                    <p class="product-price">£{{ product.price }}</p>
+                    {% endif %}
+                    <a href="{{ product.link }}" class="buy-button">Visit</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
 
     <section class="team-section">
         <h2 class="section-title">Meet Our Team</h2>
