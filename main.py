@@ -147,12 +147,51 @@ async def db_test():
 
 @app.get("/", response_class=HTMLResponse)
 async def home_page(request: Request):
+    # Example products data
+    products = [
+        {
+            "title": "Cloud Server Solutions",
+            "description": "High-performance cloud servers with 99.9% uptime guarantee. Perfect for businesses of all sizes requiring reliable hosting infrastructure.",
+            "image": "/static/images/cloud-server.jpg",
+            "price": "29.99",
+            "link": "/products/cloud-servers"
+        },
+        {
+            "title": "3D Printing Service",
+            "description": "Professional 3D printing services with rapid turnaround times. We support various materials including PLA, ABS, PETG, and specialty filaments.",
+            "image": "/static/images/3d-printing.jpg",
+            "price": "49.99",
+            "link": "/products/3d-printing"
+        },
+        {
+            "title": "Web Development",
+            "description": "Custom web development services using modern frameworks and technologies. From simple landing pages to complex web applications.",
+            "image": "/static/images/web-dev.jpg",
+            "price": "199.99",
+            "link": "/products/web-development"
+        },
+        {
+            "title": "Open Source Tools",
+            "description": "Free and open-source developer tools created by our team to help streamline your workflow and boost productivity.",
+            "image": "/static/images/open-source.jpg",
+            "price": "Free",
+            "link": "/products/open-source"
+        }
+    ]
+    
     response = templates.TemplateResponse(
         "index.html", 
-        {"request": request, "title": "RKing Industries"}
+        {
+            "request": request, 
+            "title": "RKing Industries",
+            "products": products,
+            "loggedin": False,  # You can set this based on actual authentication status
+            "beehivelinked": False  # Set this based on your requirements
+        }
     )
     response.headers["Cache-Control"] = "public, max-age=300" 
     return response
+
 
 @app.get("/portfolio", response_class=HTMLResponse)
 async def portfolio(request: Request):

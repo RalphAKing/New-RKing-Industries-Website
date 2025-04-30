@@ -193,6 +193,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
             gap: 2.5rem;
+            justify-content: center;
         }
 
         .team-member {
@@ -270,6 +271,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 2.5rem;
+            justify-content: center;
         }
 
         .product-card {
@@ -406,10 +408,32 @@
                 font-size: 2rem;
             }
 
+            .team-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
+                justify-content: center;
+            }
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
+                justify-content: center;
+            }
+
             .team-grid, .products-grid {
                 grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
                 gap: 1.5rem;
             }
+        }
+
+        .team-grid, .products-grid {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 2.5rem;
+            width: 100%;
+        }
+        
+        .team-member, .product-card {
+            width: 100%;
+            max-width: 300px;
         }
     </style>
 </head>
@@ -445,7 +469,6 @@
         </p>
         <div class="cta-buttons">
             <a href="#products" class="cta-button primary-cta">Explore Solutions</a>
-            <a href="/contact" class="cta-button secondary-cta">Contact Us</a>
             <a href="/portfolio" class="cta-button secondary-cta">Portfolio</a>
         </div>        
     </div>
@@ -475,7 +498,7 @@
 
 
             <div class="team-member">
-                <img src="" alt="Ralph King" class="member-img">
+                <img src="https://i.pinimg.com/736x/62/01/0d/62010d848b790a2336d1542fcda51789.jpg" alt="Ralph King" class="member-img">
                 <div class="member-info">
                     <h3 class="member-name">Ralph King</h3>
                     <p class="member-position">Founder / CEO / CTO</p>
