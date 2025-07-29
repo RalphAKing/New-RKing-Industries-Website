@@ -181,7 +181,8 @@ gunicorn main:app --workers 10 --worker-class uvicorn.workers.UvicornWorker --bi
 
 ## License
 
-```md
+
+---
 
 # RKing Industries Website Proprietary License v1.0
 
@@ -256,5 +257,3 @@ For any questions regarding this License or to request permission, please contac
 **RKing Industries Website Proprietary License v1.0**  
 **Effective Date:** July 29, 2025
 
-
-```
