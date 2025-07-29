@@ -265,7 +265,6 @@ def cleanup_unverified():
 
 # --- ROUTES ---
 
-# --- Index Route with Auth Check ---
 @app.get("/", response_class=HTMLResponse)
 async def read_root(
     request: Request,
@@ -315,7 +314,9 @@ async def custom_404_handler(request: Request, exc: StarletteHTTPException):
         status_code=exc.status_code
     )
 
-# --- Example: API to check session (for frontend JS) ---
+# ---
+# User data fetching api
+
 @app.get("/api/session")
 async def api_session(
     response: Response,
@@ -324,6 +325,68 @@ async def api_session(
     if not user:
         return {"ok": False, "error": "Not authenticated"}
     return {"ok": True, "user": {"id": user.id, "username": user.username, "email": user.email}}
+
+@app.get("/api/session")
+async def api_session(
+    session_token: str = Cookie(None),
+    db: DBSession = Depends(get_db)
+):
+    if not session_token:
+        return JSONResponse({"ok": False, "error": "Not logged in"}, status_code=401)
+    session = db.query(Session).filter_by(token=session_token).first()
+    if not session:
+        return JSONResponse({"ok": False, "error": "Invalid session"}, status_code=401)
+    if session.expires_at and session.expires_at < datetime.utcnow():
+        db.delete(session)
+        db.commit()
+        return JSONResponse({"ok": False, "error": "Session expired"}, status_code=401)
+    user = session.user
+    return JSONResponse({
+        "ok": True,
+        "user": {
+            "id": user.id,
+            "username": user.username,
+            "email": user.email,
+            "is_verified": user.is_verified
+        },
+        "session": {
+            "created_at": session.created_at.isoformat(),
+            "expires_at": session.expires_at.isoformat() if session.expires_at else None,
+            "device": session.device,
+            "location": session.location
+        }
+    })
+
+
+@app.get("/api/profile/sessions")
+async def get_profile_sessions(
+    session_token: str = Cookie(None),
+    db: DBSession = Depends(get_db)
+):
+    if not session_token:
+        return JSONResponse({"ok": False, "error": "Not authenticated"}, status_code=401)
+    session = db.query(Session).filter_by(token=session_token).first()
+    if not session or (session.expires_at and session.expires_at < datetime.utcnow()):
+        return JSONResponse({"ok": False, "error": "Session expired"}, status_code=401)
+    user = session.user
+    sessions = db.query(Session).filter_by(user_id=user.id).all()
+    return {
+        "ok": True,
+        "sessions": [
+            {
+                "id": s.id,
+                "created_at": s.created_at.isoformat(),
+                "expires_at": s.expires_at.isoformat() if s.expires_at else None,
+                "device": s.device,
+                "location": s.location,
+                "current": s.token == session_token
+            }
+            for s in sessions
+        ]
+    }
+
+# ---
+# User management API
 
 @app.post("/api/signup")
 async def api_signup(
@@ -434,65 +497,6 @@ async def api_logout(
     response.delete_cookie(SESSION_COOKIE)
     return response
 
-@app.get("/api/session")
-async def api_session(
-    session_token: str = Cookie(None),
-    db: DBSession = Depends(get_db)
-):
-    if not session_token:
-        return JSONResponse({"ok": False, "error": "Not logged in"}, status_code=401)
-    session = db.query(Session).filter_by(token=session_token).first()
-    if not session:
-        return JSONResponse({"ok": False, "error": "Invalid session"}, status_code=401)
-    if session.expires_at and session.expires_at < datetime.utcnow():
-        db.delete(session)
-        db.commit()
-        return JSONResponse({"ok": False, "error": "Session expired"}, status_code=401)
-    user = session.user
-    return JSONResponse({
-        "ok": True,
-        "user": {
-            "id": user.id,
-            "username": user.username,
-            "email": user.email,
-            "is_verified": user.is_verified
-        },
-        "session": {
-            "created_at": session.created_at.isoformat(),
-            "expires_at": session.expires_at.isoformat() if session.expires_at else None,
-            "device": session.device,
-            "location": session.location
-        }
-    })
-
-
-@app.get("/api/profile/sessions")
-async def get_profile_sessions(
-    session_token: str = Cookie(None),
-    db: DBSession = Depends(get_db)
-):
-    if not session_token:
-        return JSONResponse({"ok": False, "error": "Not authenticated"}, status_code=401)
-    session = db.query(Session).filter_by(token=session_token).first()
-    if not session or (session.expires_at and session.expires_at < datetime.utcnow()):
-        return JSONResponse({"ok": False, "error": "Session expired"}, status_code=401)
-    user = session.user
-    sessions = db.query(Session).filter_by(user_id=user.id).all()
-    return {
-        "ok": True,
-        "sessions": [
-            {
-                "id": s.id,
-                "created_at": s.created_at.isoformat(),
-                "expires_at": s.expires_at.isoformat() if s.expires_at else None,
-                "device": s.device,
-                "location": s.location,
-                "current": s.token == session_token
-            }
-            for s in sessions
-        ]
-    }
-
 @app.post("/api/profile/remove_session")
 async def remove_profile_session(
     session_id: int = Form(...),
@@ -514,19 +518,6 @@ async def remove_profile_session(
     db.delete(target_session)
     db.commit()
     return {"ok": True}
-
-@app.post("/api/logout")
-async def api_logout(
-    response: Response,
-    session_token: str = Cookie(None),
-    db: DBSession = Depends(get_db)
-):
-    if session_token:
-        db.query(Session).filter_by(token=session_token).delete()
-        db.commit()
-    response = JSONResponse({"ok": True})
-    response.delete_cookie("session_token")
-    return response
 
 @app.post("/api/profile/update")
 async def profile_update(
