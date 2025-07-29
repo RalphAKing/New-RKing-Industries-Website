@@ -181,30 +181,80 @@ gunicorn main:app --workers 10 --worker-class uvicorn.workers.UvicornWorker --bi
 
 ## License
 
-This project is open-source and available for modification and use under the MIT license.
+```md
 
-### MIT License
+# RKing Industries Website Proprietary License v1.0
 
-```
-MIT License
+**Copyright (c) 2025 Ralph King, RKing Industries**  
+**All Rights Reserved.**
 
-Copyright (c) 2025 Ralph King
+---
 
-Permission is hereby granted, free of charge, to any person obtaining a copy
-of this software and associated documentation files (the "Software"), to deal
-in the Software without restriction, including without limitation the rights
-to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-copies of the Software, and to permit persons to whom the Software is
-furnished to do so, subject to the following conditions:
+## 1. Grant of License
 
-The above copyright notice and this permission notice shall be included in all
-copies or substantial portions of the Software.
+Subject to the terms and conditions of this License, the Copyright Holder grants no rights to use, copy, modify, merge, publish, distribute, sublicense, or sell copies of the Software, in whole or in part, for any purpose, including but not limited to public or commercial use, except as expressly permitted by a separate, written license agreement signed by the Copyright Holder.
 
-THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
-THE SOFTWARE.
+---
+
+## 2. Prohibited Uses
+
+Unless you have received explicit, written permission from the Copyright Holder, you may **not**:
+
+- Use the Software in any public or commercial project.
+- Distribute, sublicense, or otherwise make the Software available to any third party.
+- Modify, adapt, or create derivative works based on the Software.
+- Use the Software for any purpose that is unlawful or prohibited by this License.
+
+---
+
+## 3. Permitted Uses
+
+You may:
+
+- View and review the source code for personal, non-commercial evaluation purposes only.
+- Request a license for broader use by contacting the Copyright Holder.
+
+---
+
+## 4. Requesting Permission
+
+To obtain permission for any use not expressly permitted by this License, you must contact the Copyright Holder at:
+
+**Email:** ralphaking09@gmail.com
+
+Permission, if granted, will be provided in writing and may be subject to additional terms and conditions.
+
+---
+
+## 5. Termination
+
+Any unauthorized use of the Software will automatically terminate your rights under this License. Upon termination, you must immediately cease all use of the Software and destroy all copies in your possession.
+
+---
+
+## 6. Disclaimer of Warranty
+
+The Software is provided "AS IS", without warranty of any kind, express or implied, including but not limited to the warranties of merchantability, fitness for a particular purpose, and noninfringement. In no event shall the Copyright Holder be liable for any claim, damages, or other liability, whether in an action of contract, tort, or otherwise, arising from, out of, or in connection with the Software or the use or other dealings in the Software.
+
+---
+
+## 7. Governing Law
+
+This License shall be governed by and construed in accordance with the laws of your jurisdiction, without regard to its conflict of law provisions.
+
+---
+
+## 8. Contact
+
+For any questions regarding this License or to request permission, please contact:
+
+**Ralph King, RKing Industries**  
+**Email:** ralphaking09@gmail.com
+
+---
+
+**RKing Industries Website Proprietary License v1.0**  
+**Effective Date:** July 29, 2025
+
+
 ```
