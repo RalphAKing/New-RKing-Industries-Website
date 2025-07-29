@@ -606,13 +606,3 @@ async def profile_update(
 
     return JSONResponse({"ok": False, "error": "Invalid field"}, status_code=400)
 
-# --- ENDPOINTS FOR DEMO (OPTIONAL) ---
-
-@app.get("/login", response_class=HTMLResponse)
-async def login_page(request: Request):
-    return templates.TemplateResponse("login.html", {"request": request})
-
-@app.get("/signup", response_class=HTMLResponse)
-async def signup_page(request: Request):
-    return templates.TemplateResponse("signup.html", {"request": request})
-
