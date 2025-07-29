@@ -1,538 +1,542 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>RKing Industries | Innovation & Technology Solutions</title>
-    <link rel="icon" href="../static/logos/logoblack.svg" type="image/icon type">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
-    
-    <style>
-        :root {
-            --primary-color: #2563eb;
-            --secondary-color: #1e40af;
-            --text-color: #f8fafc;
-            --gradient-bg: linear-gradient(135deg, #1e293b, #0f172a);
-            --gradient-text: linear-gradient(45deg, #60a5fa, #3b82f6);
-        }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>RKing Industries</title>
+  <link rel="icon" href="../static/images/logo.svg" type="image/icon type">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --text-color: #f8fafc;
+      --background-gradient: linear-gradient(135deg, #1e293b, #0f172a);
+      --accent-gradient: linear-gradient(45deg, #60a5fa, #3b82f6);
+      --glow-color: rgba(59, 130, 246, 0.4);
+      --card-bg: rgba(15, 23, 42, 0.8);
+      --card-border: rgba(59, 130, 246, 0.3);
+    }
 
-        body, html {
-            margin: 0;
-            padding: 0;
-            font-family: 'Poppins', sans-serif;
-            height: 100%;
-            width: 100%;
-            background: var(--gradient-bg);
-            color: var(--text-color);
-            overflow-x: hidden;
-        }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: var(--background-gradient);
+      color: var(--text-color);
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
 
-        .particles {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            z-index: 0;
-        }
+    /* Hero Section */
+    .hero-section {
+      height: 200vh;
+      position: relative;
+    }
+    .container {
+      position: sticky;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+      z-index: 10;
+      transition: transform 0.5s ease, opacity 0.5s ease;
+      background: transparent;
+    }
+    .logo {
+      width: 90vw;
+      max-width: 1600px;
+      transition: width 0.2s, filter 0.5s, transform 0.5s;
+      filter: drop-shadow(0 0 8px var(--glow-color));
+      animation: subtle-pulse 4s infinite alternate;
+    }
+    @keyframes subtle-pulse {
+      0% { filter: drop-shadow(0 0 8px var(--glow-color)); }
+      100% { filter: drop-shadow(0 0 15px var(--glow-color)); }
+    }
+    .slogan {
+      margin-top: 5px;
+      font-size: clamp(18px, 5vw, 28px);
+      font-weight: 600;
+      text-align: center;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.4s, transform 0.4s, text-shadow 0.4s;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      width: 90%;
+      max-width: 600px;
+      text-shadow: 0 0 8px rgba(96, 165, 250, 0.3);
+    }
 
-        .particle {
-            position: absolute;
-            background: #ffffff10;
-            border-radius: 50%;
-            animation: moveParticle 8s infinite linear;
-        }
+    /* Auth buttons */
+    .auth-buttons {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      display: flex;
+      gap: 10px;
+      z-index: 20;
+      opacity: 0;
+      transform: translateY(-20px);
+      transition: opacity 0.5s, transform 0.5s;
+    }
+    .auth-button {
+      padding: 10px 20px;
+      border-radius: 6px;
+      font-weight: 600;
+      font-size: 16px;
+      cursor: pointer;
+      transition: all 0.3s;
+      border: none;
+      outline: none;
+    }
+    .login-btn {
+      background-color: transparent;
+      color: var(--text-color);
+      border: 2px solid var(--primary-color);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+    .login-btn:hover {
+      background-color: rgba(37, 99, 235, 0.2);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
+    .signup-btn {
+      background: var(--accent-gradient);
+      color: var(--text-color);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+    }
+    .signup-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
 
-        .navbar {
-            background: rgba(30, 41, 59, 0.8);
-            backdrop-filter: blur(10px);
-            position: fixed;
-            top: 0;
-            width: 100%;
-            padding: 1.5rem 3rem;  
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 100;
-            box-sizing: border-box; 
-        }
+    /* Solutions Section */
+    .solutions-section {
+      min-height: 100vh;
+      padding: 80px 0 40px 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background: transparent;
+    }
+    .solutions-title {
+      font-size: 32px;
+      font-weight: 700;
+      margin: 30px 0;
+      text-align: center;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 10px rgba(96, 165, 250, 0.3);
+    }
+    .solutions-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 25px;
+      width: 90%;
+      max-width: 1200px;
+      padding: 20px;
+    }
+    .solution-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 10px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      cursor: pointer;
+      position: relative;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    }
+    .solution-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 25px rgba(59, 130, 246, 0.3);
+    }
+    .solution-image {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-bottom: 1px solid var(--card-border);
+    }
+    .solution-content {
+      padding: 15px;
+    }
+    .solution-title {
+      font-size: 20px;
+      font-weight: 600;
+      margin-bottom: 10px;
+      color: var(--text-color);
+    }
+    .solution-description {
+      font-size: 14px;
+      color: rgba(248, 250, 252, 0.8);
+      display: -webkit-box;
+      -webkit-line-clamp: 3;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      line-height: 1.5;
+    }
 
-        .social-icons {
-            display: flex;
-            gap: 1.5rem;
-        }
+    /* Modal for expanded solution */
+    .solution-modal {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(15, 23, 42, 0.95);
+      z-index: 30;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s;
+    }
+    .solution-modal.active {
+      opacity: 1;
+      pointer-events: all;
+    }
+    .modal-content {
+      width: 95vw;
+      max-width: 700px;
+      max-height: 90vh;
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+      transform: scale(0.96);
+      transition: transform 0.3s;
+    }
+    .solution-modal.active .modal-content {
+      transform: scale(1);
+    }
+    .close-modal {
+      position: absolute;
+      top: 15px; right: 15px;
+      width: 36px; height: 36px;
+      background: rgba(15,23,42,0.7);
+      border-radius: 50%;
+      display: flex; justify-content: center; align-items: center;
+      cursor: pointer; color: var(--text-color);
+      font-size: 20px; border: none; outline: none;
+      transition: background 0.3s;
+    }
+    .close-modal:hover {
+      background: rgba(37,99,235,0.7);
+    }
+    .modal-image {
+      width: 100%; height: 250px; object-fit: cover;
+    }
+    .modal-body {
+      padding: 25px; overflow-y: auto;
+    }
+    .modal-title {
+      font-size: 28px; font-weight: 700; margin-bottom: 15px; color: var(--text-color);
+    }
+    .modal-description {
+      font-size: 16px; line-height: 1.6; color: rgba(248,250,252,0.9); margin-bottom: 25px;
+    }
+    .visit-link {
+      display: inline-block; padding: 12px 25px;
+      background: var(--accent-gradient); color: var(--text-color);
+      text-decoration: none; border-radius: 6px; font-weight: 600;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+    }
+    .visit-link:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 20px rgba(59,130,246,0.5);
+    }
 
-        .social-icons a {
-            color: var(--text-color);
-            font-size: 1.5rem;
-            transition: transform 0.3s ease;
-        }
+    /* Particle canvas */
+    #particles-js {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
 
-        .social-icons a:hover {
-            transform: translateY(-3px);
-            color: var(--primary-color);
-        }
+    /* Mobile-specific styles */
+    @media (max-width: 768px) {
+      .hero-section { height: 100vh; }
+      .container { position: relative; }
+      .logo { width: 85vw; max-width: 400px; filter: drop-shadow(0 0 6px var(--glow-color)); }
+      .slogan { opacity: 1; transform: translateY(0); margin-top: 10px; }
+      .auth-buttons { opacity: 1; transform: translateY(0); top: 15px; right: 15px; gap: 8px; }
+      .auth-button { padding: 8px 16px; font-size: 14px; }
+      .solutions-grid { grid-template-columns: 1fr; }
+      .modal-image { height: 200px; }
+      .modal-title { font-size: 24px; }
+    }
 
-        .nav-links {
-            display: flex;
-            gap: 1rem;
-            margin-right: 2rem; 
-        }
+    .profile-btn {
+      background: var(--accent-gradient);
+      color: var(--text-color);
+      box-shadow: 0 0 10px rgba(59, 130, 246, 0.3);
+      border: none;
+    }
+    .profile-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 15px rgba(59, 130, 246, 0.5);
+    }
 
-        .nav-links a {
-            color: var(--text-color);
-            text-decoration: none;
-            padding: 0.8rem 1.5rem;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            white-space: nowrap;  
-        }
-
-        .nav-links a:hover {
-            background: var(--primary-color);
-        }
-
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 2rem;
-            text-align: center;
-            position: relative;
-            z-index: 1;
-        }
-
-        .title {
-            font-size: 4rem;
-            font-weight: 700;
-            margin: 0;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-            animation: float 6s ease-in-out infinite;
-        }
-
-        .strapline {
-            font-size: 1.8rem;
-            margin: 1rem 0;
-            font-weight: 300;
-            animation: fadeIn 1s ease-in 0.5s both;
-        }
-
-        .mission {
-            font-size: 1.1rem;
-            max-width: 800px;
-            margin: 2rem 0;
-            line-height: 1.8;
-            animation: fadeIn 1s ease-in 1s both;
-        }
-
-        .cta-buttons {
-            display: flex;
-            gap: 1rem;
-            margin-top: 2rem;
-            animation: fadeIn 1s ease-in 1.5s both;
-        }
-
-        .cta-button {
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-align: center;
-            display: inline-block;
-        }
-
-        .cta-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(37, 99, 235, 0.3);
-        }
-
-        .primary-cta {
-            background: var(--primary-color);
-            color: white;
-        }
-
-        .primary-cta:hover {
-            background: var(--secondary-color);
-        }
-
-        .secondary-cta {
-            border: 2px solid var(--primary-color);
-            color: var(--text-color);
-        }
-
-        .secondary-cta:hover {
-            background: var(--primary-color);
-        }
-
-        .team-section {
-            padding: 5rem 2rem;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .section-title {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            text-align: center;
-            background: var(--gradient-text);
-            -webkit-background-clip: text;
-            background-clip: text;
-            -webkit-text-fill-color: transparent;
-        }
-
-        .team-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 2.5rem;
-            justify-content: center;
-        }
-
-        .team-member {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeIn 0.8s ease-in both;
-        }
-
-        .team-member:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
-        }
-
-        .member-img {
-            width: 100%;
-            height: 250px;
-            object-fit: cover;
-            border-bottom: 3px solid var(--primary-color);
-        }
-
-        .member-info {
-            padding: 1.5rem;
-            text-align: center;
-        }
-
-        .member-name {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .member-position {
-            color: var(--primary-color);
-            font-weight: 500;
-            margin-bottom: 1rem;
-        }
-
-        .member-bio {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-        }
-
-        .member-social {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-        }
-
-        .member-social a {
-            color: var(--text-color);
-            font-size: 1.2rem;
-            transition: all 0.3s ease;
-        }
-
-        .member-social a:hover {
-            color: var(--primary-color);
-            transform: translateY(-3px);
-        }
-
-        /* New Product Grid Styles */
-        .products-section {
-            padding: 5rem 2rem;
-            width: 100%;
-            max-width: 1200px;
-            margin: 0 auto;
-            position: relative;
-            z-index: 1;
-        }
-
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2.5rem;
-            justify-content: center;
-        }
-
-        .product-card {
-            background: rgba(30, 41, 59, 0.5);
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            animation: fadeIn 0.8s ease-in both;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .product-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 30px rgba(37, 99, 235, 0.3);
-        }
-
-        .product-image {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            border-bottom: 3px solid var(--primary-color);
-        }
-
-        .product-info {
-            padding: 1.5rem;
-            display: flex;
-            flex-direction: column;
-            flex-grow: 1;
-        }
-
-        .product-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-        }
-
-        .product-description {
-            font-size: 0.9rem;
-            line-height: 1.6;
-            margin-bottom: 1.5rem;
-            flex-grow: 1;
-        }
-
-        .product-price {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: var(--primary-color);
-            margin-bottom: 1rem;
-        }
-
-        .buy-button {
-            padding: 0.8rem 1.5rem;
-            background: var(--primary-color);
-            color: white;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            text-align: center;
-            display: inline-block;
-            align-self: flex-start;
-        }
-
-        .buy-button:hover {
-            background: var(--secondary-color);
-            transform: translateY(-2px);
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-20px); }
-        }
-
-        @keyframes moveParticle {
-            0% { transform: translateY(100vh) translateX(-10px); }
-            100% { transform: translateY(-100px) translateX(10px); }
-        }
-
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem;
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            .container {
-                padding-top: 140px; 
-            }
-
-            .nav-links {
-                flex-wrap: wrap;
-                justify-content: center;
-                margin-right: 0;
-                gap: 0.5rem;
-            }
-
-            .title {
-                font-size: 2.5rem;
-            }
-
-            .strapline {
-                font-size: 1.2rem;
-            }
-
-            .mission {
-                font-size: 0.95rem;
-            }
-
-            .cta-buttons {
-                flex-direction: column;
-                gap: 1rem;
-                width: 100%;
-            }
-
-            .cta-button {
-                width: 100%;
-            }
-
-            .section-title {
-                font-size: 2rem;
-            }
-
-            .team-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 300px));
-                justify-content: center;
-            }
-            .products-grid {
-                grid-template-columns: repeat(auto-fit, minmax(300px, 350px));
-                justify-content: center;
-            }
-
-            .team-grid, .products-grid {
-                grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-                gap: 1.5rem;
-            }
-        }
-
-        .team-grid, .products-grid {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 2.5rem;
-            width: 100%;
-        }
-        
-        .team-member, .product-card {
-            width: 100%;
-            max-width: 300px;
-        }
-    </style>
+    .logout-btn {
+      background: transparent;
+      color: #f87171;
+      border: 2px solid #f87171;
+      box-shadow: 0 0 10px rgba(248, 113, 113, 0.15);
+    }
+    .logout-btn:hover {
+      background: rgba(248, 113, 113, 0.15);
+      color: #fff;
+      border-color: #f87171;
+    }
+  </style>
 </head>
 <body>
-    <div class="particles" id="particles"></div>
-    
-    <nav class="navbar">
-        <div class="social-icons">
-            <a href="https://github.com/RalphAKing" target="_blank"><i class="fa-brands fa-github"></i></a>
-            <a href="/forums"><i class="fa-solid fa-comments"></i></a>
-            <a href="/devlog"><i class="fa-solid fa-book"></i></a>
-        </div>
-        <div class="nav-links">
-            {% if beehivelinked %}
-                <a href="/fasthive/">Fasthive</a>
-            {% endif %}
-            {% if not loggedin %}
-                <a href="/login">Login</a>
-                <a href="/signup">Sign Up</a>
-            {% endif %}
-            {% if loggedin %}
-                <a href="/profile">Profile</a>
-                <a href="/logout">Logout</a>
-            {% endif %}
-        </div>
-    </nav>
+  <!-- Particles container -->
+  <div id="particles-js"></div>
+  
+  <!-- Auth buttons -->
+  <div class="auth-buttons" id="auth-buttons">
+    {% if not user %}
+      <button class="auth-button login-btn">Login</button>
+      <button class="auth-button signup-btn">Sign Up</button>
+    {% else %}
+      <button class="auth-button profile-btn" id="profile-btn">Profile</button>
+      <button class="auth-button logout-btn" id="logout-btn">Logout</button>
+    {% endif %}
+  </div>
 
-    <div class="container">
-        <h1 class="title">RKing Industries</h1>
-        <h2 class="strapline">Pioneering Tomorrow's Technology Today</h2>
-        <p class="mission">
-            At RKing Industries, we specialize in cutting-edge solutions that empower businesses and individuals to thrive in a rapidly evolving digital landscape. From advanced server infrastructure to innovative 3D printing technologies, we are committed to driving the future of digital transformation.
-        </p>
-        <div class="cta-buttons">
-            <a href="#products" class="cta-button primary-cta">Explore Solutions</a>
-            <a href="/portfolio" class="cta-button secondary-cta">Portfolio</a>
-        </div>        
+  <!-- Hero section with logo and slogan -->
+  <section class="hero-section">
+    <div class="container" id="main-container">
+      <img src="{{ url_for('static', path='images/biglogo.svg') }}" alt="Logo" class="logo" id="logo">
+      <div class="slogan" id="slogan">Working on tomorrow's tech, today</div>
     </div>
+  </section>
+  
+  <!-- Solutions section -->
+  <section class="solutions-section" id="solutions-section">
+    <h2 class="solutions-title">Our Solutions</h2>
+    <div class="solutions-grid" id="solutions-grid">
+      <!-- Solution cards will be inserted here -->
+    </div>
+  </section>
+  
+  <!-- Solution modal -->
+  <div class="solution-modal" id="solution-modal">
+    <div class="modal-content">
+      <div class="modal-header" style="position:relative;">
+        <img src="" alt="" class="modal-image" id="modal-image">
+        <button class="close-modal" id="close-modal">×</button>
+      </div>
+      <div class="modal-body">
+        <h3 class="modal-title" id="modal-title"></h3>
+        <p class="modal-description" id="modal-description"></p>
+        <a href="#" class="visit-link" id="modal-link" target="_blank" rel="noopener">Visit Page</a>
+      </div>
+    </div>
+  </div>
 
-    <section id="products" class="products-section">
-        <h2 class="section-title">Our Solutions</h2>
-        <div class="products-grid">
-            {% for product in products %}
-            <div class="product-card">
-                <img src="{{ product.image }}" alt="{{ product.title }}" class="product-image">
-                <div class="product-info">
-                    <h2 class="product-title">{{ product.title }}</h2>
-                    <p class="product-description">{{ product.description }}</p>
-                    {% if product.price != 'Free' %}
-                    <p class="product-price">£{{ product.price }}</p>
-                    {% endif %}
-                    <a href="{{ product.link }}" class="buy-button">Visit</a>
-                </div>
-            </div>
-            {% endfor %}
-        </div>
-    </section>
+  <!-- Particles.js library -->
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script src="/static/js/auth-modal.js"></script>
+  <script src="/static/js/profile-modal.js"></script>
+  <script>
+particlesJS('particles-js', {
+  "particles": {
+    "number": {
+      "value": window.innerWidth <= 768 ? 25 : 60,
+      "density": { "enable": true, "value_area": 800 }
+    },
+    "color": { "value": "#3b82f6" },
+    "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000" } },
+    "opacity": {
+      "value": 0.4, "random": true,
+      "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false }
+    },
+    "size": {
+      "value": 2.5, "random": true,
+      "anim": { "enable": true, "speed": 1.5, "size_min": 0.1, "sync": false }
+    },
+    "line_linked": {
+      "enable": true, "distance": 150, "color": "#60a5fa", "opacity": 0.3, "width": 1
+    },
+    "move": {
+      "enable": true, "speed": 0.8, "direction": "none", "random": true,
+      "straight": false, "out_mode": "out", "bounce": false,
+      "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 }
+    }
+  },
+  "interactivity": {
+    "detect_on": "canvas",
+    "events": {
+      "onhover": { "enable": true, "mode": "grab" },
+      "onclick": { "enable": true, "mode": "push" },
+      "resize": true
+    },
+    "modes": {
+      "grab": { "distance": 140, "line_linked": { "opacity": 0.6 } },
+      "push": { "particles_nb": 3 }
+    }
+  },
+  "retina_detect": true
+});
 
-    <section class="team-section">
-        <h2 class="section-title">Meet Our Team</h2>
-        <div class="team-grid">
+const logo = document.getElementById('logo');
+const slogan = document.getElementById('slogan');
+const authButtons = document.getElementById('auth-buttons');
+const solutionsSection = document.getElementById('solutions-section');
+const solutionsGrid = document.getElementById('solutions-grid');
+const modal = document.getElementById('solution-modal');
+const modalImage = document.getElementById('modal-image');
+const modalTitle = document.getElementById('modal-title');
+const modalDescription = document.getElementById('modal-description');
+const modalLink = document.getElementById('modal-link');
+const closeModal = document.getElementById('close-modal');
+const mainContainer = document.getElementById('main-container');
+const isMobile = window.innerWidth <= 768;
 
+// Solutions data from FastAPI (this will be replaced by actual data from the server)
+const solutions = {{ solutions|tojson }};
 
-            <div class="team-member">
-                <img src="https://i.pinimg.com/736x/62/01/0d/62010d848b790a2336d1542fcda51789.jpg" alt="Ralph King" class="member-img">
-                <div class="member-info">
-                    <h3 class="member-name">Ralph King</h3>
-                    <p class="member-position">Founder / CEO / CTO</p>
-                    <p class="member-bio">Runs the company.</p>
-                    <div class="member-social">
-                        <a target='blank' href="https://github.com/RalphAKing"><i class="fab fa-github"></i></a>
-                        <a href="mailto:ralphaking09@gmail.com"><i class="fas fa-envelope"></i></a>
-                        <a target='blank' href="#"><i class="fab fa-linkedin"></i></a>
-                    </div>
-                </div>
-            </div>
+function populateSolutions() {
+  if (solutionsGrid.children.length > 0) return; // Only populate once
+  solutions.forEach(solution => {
+    const card = document.createElement('div');
+    card.className = 'solution-card';
+    card.innerHTML = `
+      <img src="${solution.image_url}" alt="${solution.title}" class="solution-image">
+      <div class="solution-content">
+        <h3 class="solution-title">${solution.title}</h3>
+        <p class="solution-description">${solution.short_description}</p>
+      </div>
+    `;
+    card.addEventListener('click', () => openSolutionModal(solution));
+    solutionsGrid.appendChild(card);
+  });
+}
 
+function openSolutionModal(solution) {
+  modalImage.src = solution.image_url;
+  modalImage.alt = solution.title;
+  modalTitle.textContent = solution.title;
+  modalDescription.innerHTML = solution.full_description;
+  modalLink.href = solution.link_url;
+  modal.classList.add('active');
+  document.body.style.overflow = 'hidden';
+}
 
-        </div>
-    </section>
+closeModal.addEventListener('click', () => {
+  modal.classList.remove('active');
+  document.body.style.overflow = '';
+});
+modal.addEventListener('click', (e) => {
+  if (e.target === modal) {
+    modal.classList.remove('active');
+    document.body.style.overflow = '';
+  }
+});
 
-    <script>
-        function createParticles() {
-            const particlesContainer = document.getElementById('particles');
-            const particleCount = 50;
+// Auth button handlers
+document.addEventListener("DOMContentLoaded", function() {
+  const loginBtn = document.querySelector('.login-btn');
+  const signupBtn = document.querySelector('.signup-btn');
+  const logoutBtn = document.getElementById('logout-btn');
+  if (loginBtn) {
+    loginBtn.onclick = function(e) {
+      e.preventDefault();
+      if (typeof showAuthModal === "function") showAuthModal('login');
+    };
+  }
+  if (signupBtn) {
+    signupBtn.onclick = function(e) {
+      e.preventDefault();
+      if (typeof showAuthModal === "function") showAuthModal('signup');
+    };
+  }
 
-            for (let i = 0; i < particleCount; i++) {
-                const particle = document.createElement('div');
-                particle.className = 'particle';
-                const size = Math.random() * 4 + 2;
-                particle.style.width = `${size}px`;
-                particle.style.height = `${size}px`;
-                particle.style.left = `${Math.random() * 100}%`;
-                particle.style.animationDuration = `${Math.random() * 8 + 4}s`;
-                particlesContainer.appendChild(particle);
-            }
-        }
+  if (logoutBtn) {
+    logoutBtn.onclick = function(e) {
+      e.preventDefault();
+      fetch('/api/logout', { method: 'POST' })
+        .then(r => r.json())
+        .then(data => {
+          if (data.ok) {
+            window.location.reload();
+          } else {
+            alert("Logout failed.");
+          }
+        })
+        .catch(() => alert("Network error"));
+    };
+  }
+});
 
-        createParticles();
-    </script>
+if (isMobile) {
+  populateSolutions();
+  slogan.style.opacity = '1';
+  slogan.style.transform = 'translateY(0)';
+  authButtons.style.opacity = '1';
+  authButtons.style.transform = 'translateY(0)';
+} else {
+  const minLogoSize = 650;
+  const maxLogoSize = Math.min(1600, window.innerWidth * 0.9);
+  const scrollDistance = window.innerHeight * 1.5;
+
+  populateSolutions();
+
+  function handleScroll() {
+    const scrollY = window.scrollY;
+    const heroHeight = document.querySelector('.hero-section').offsetHeight;
+    const scrollRatio = scrollY / heroHeight;
+
+    // First phase: Logo shrinks and slogan appears
+    if (scrollRatio < 0.5) {
+      const scrollPercentage = Math.min(scrollY / scrollDistance, 1);
+      const newWidth = maxLogoSize - scrollPercentage * (maxLogoSize - minLogoSize);
+      logo.style.width = `${newWidth}px`;
+      const glowIntensity = 8 + (scrollPercentage * 7);
+      const glowOpacity = 0.4 + (scrollPercentage * 0.1);
+      logo.style.filter = `drop-shadow(0 0 ${glowIntensity}px rgba(59, 130, 246, ${glowOpacity}))`;
+      if (scrollPercentage >= 0.6) {
+        slogan.style.opacity = '1';
+        slogan.style.transform = 'translateY(0)';
+        slogan.style.textShadow = '0 0 10px rgba(96, 165, 250, 0.4)';
+        authButtons.style.opacity = '1';
+        authButtons.style.transform = 'translateY(0)';
+        mainContainer.style.transform = 'translateY(-5vh)';
+      } else {
+        slogan.style.opacity = '0';
+        slogan.style.transform = 'translateY(20px)';
+        authButtons.style.opacity = '0';
+        authButtons.style.transform = 'translateY(-20px)';
+        mainContainer.style.transform = 'translateY(0)';
+      }
+    } else {
+      // Second phase: Logo and slogan move off screen
+      const exitProgress = Math.min((scrollRatio - 0.5) * 2, 1);
+      mainContainer.style.transform = `translateY(${-100 * exitProgress}vh)`;
+      authButtons.style.opacity = '1';
+      authButtons.style.transform = 'translateY(0)';
+    }
+  }
+  window.addEventListener('scroll', handleScroll);
+  handleScroll();
+}
+</script>
 </body>
 </html>

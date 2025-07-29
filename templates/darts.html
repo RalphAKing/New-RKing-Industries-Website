@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Box with Cubes</title>
+  <style>
+    #myBox {
+      position: relative;
+      width: 500px;
+      height: 250px;
+      margin: 40px auto;
+      border: 2px solid #333;
+      overflow: hidden;
+    }
+    .cube {
+      width: 30px;
+      height: 30px;
+      background: #3498db;
+      position: absolute;
+      box-shadow: 4px 4px 8px rgba(0,0,0,0.2);
+      border-radius: 4px;
+    }
+    .cube.tl { top: 10px; left: 10px; }
+    .cube.tr { top: 10px; right: 10px; }
+    .cube.bl { bottom: 10px; left: 10px; }
+    .cube.br { bottom: 10px; right: 10px; }
+    .hello-text {
+      position: absolute;
+      top: 50%; left: 50%;
+      transform: translate(-50%, -50%);
+      font-size: 2rem;
+      color: #fff;
+      font-family: sans-serif;
+      text-shadow: 1px 1px 4px #222;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div id="myBox"></div>
+  <script src="../static/js/darts/darts-profile.js"></script>
+</body>
+</html>

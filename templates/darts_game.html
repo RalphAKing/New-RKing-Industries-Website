@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Darts Game | RKing Industries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="../static/images/logo.svg" type="image/icon type">
+    <style>
+    :root {
+        --primary-color: #2563eb;
+        --secondary-color: #1e40af;
+        --text-color: #f8fafc;
+        --background-gradient: linear-gradient(135deg, #1e293b, #0f172a);
+        --accent-gradient: linear-gradient(45deg, #60a5fa, #3b82f6);
+        --glow-color: rgba(59, 130, 246, 0.2);
+        --card-bg: rgba(30, 41, 59, 0.98);
+        --card-border: rgba(59, 130, 246, 0.3);
+    }
+    body, h1, div, span, button {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background: var(--background-gradient);
+        color: var(--text-color);
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        min-height: 100vh;
+        justify-content: center;
+    }
+    .center-container {
+        max-width: 500px;
+        width: 95vw;
+        margin: 60px auto 0 auto;
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 14px;
+        box-shadow: 0 2px 8px var(--glow-color);
+        padding: 32px 24px 28px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+        align-items: center;
+        text-align: center;
+    }
+    .center-container h1 {
+        color: var(--primary-color);
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 8px var(--glow-color);
+        font-size: 1.7em;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .center-container p {
+        font-size: 1.15em;
+        color: #cbd5e1;
+        margin-bottom: 10px;
+    }
+    .logout-btn {
+        background: var(--primary-color);
+        color: var(--text-color);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 32px;
+        font-weight: 700;
+        font-size: 1.1em;
+        cursor: pointer;
+        box-sizing: border-box;
+        transition: background 0.2s, color 0.2s;
+        margin-top: 10px;
+    }
+    .logout-btn:hover, .logout-btn:focus {
+        background: var(--accent-gradient);
+        color: #fff;
+    }
+    @media (max-width: 600px) {
+        .center-container {
+            padding: 18px 8px 18px 8px;
+        }
+        .center-container h1 {
+            font-size: 1.2em;
+        }
+        .logout-btn {
+            font-size: 1em;
+            padding: 10px 0;
+            width: 100%;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="center-container" role="main" aria-labelledby="dev-title">
+        <h1 id="dev-title" tabindex="0">Feature In Development</h1>
+        <p>
+            This feature is currently in development.<br>
+            Please revisit later.<br><br>
+            To view the working version, please logout.
+        </p>
+        <button class="logout-btn" id="logout-btn" aria-label="Logout">Logout</button>
+    </div>
+    <script>
+    document.getElementById('logout-btn').onclick = async function() {
+        try {
+            await fetch('/api/logout', { method: 'POST' });
+        } catch (e) {
+            // Optionally handle error
+        }
+        window.location.href = '/darts';
+    };
+    </script>
+</body>
+</html>
