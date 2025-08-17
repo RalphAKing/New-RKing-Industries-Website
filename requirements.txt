@@ -1,0 +1,10 @@
+fastapi
+uvicorn
+jinja2
+python-dotenv
+sqlalchemy
+psycopg2-binary
+passlib[argon2]
+pyjwt
+requests
+python-multipart
