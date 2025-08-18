@@ -1,0 +1,876 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Offline Darts Game | RKing Industries</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link rel="icon" href="../static/images/logo.svg" type="image/icon type">
+    <style>
+    :root {
+        --primary-color: #2563eb;
+        --secondary-color: #1e40af;
+        --text-color: #f8fafc;
+        --background-gradient: linear-gradient(135deg, #1e293b, #0f172a);
+        --accent-gradient: linear-gradient(45deg, #60a5fa, #3b82f6);
+        --glow-color: rgba(59, 130, 246, 0.2);
+        --card-bg: rgba(30, 41, 59, 0.98);
+        --card-border: rgba(59, 130, 246, 0.3);
+    }
+    body, h1, div, span, button {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+    body {
+        font-family: Arial, sans-serif;
+        background: var(--background-gradient);
+        color: var(--text-color);
+        line-height: 1.5;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 10px;
+        min-height: 100vh;
+    }
+    html, body {
+        overflow-x: hidden !important;
+        max-width: 100vw;
+    }
+    .auth-buttons {
+        position: fixed;
+        top: 16px;
+        right: 16px;
+        display: flex;
+        gap: 8px;
+        z-index: 20;
+    }
+    .auth-button, .exit-btn {
+        padding: 8px 16px;
+        border-radius: 7px;
+        font-weight: 600;
+        font-size: 1em;
+        cursor: pointer;
+        border: none;
+        outline: none;
+        transition: all 0.2s;
+    }
+    .login-btn {
+        background: transparent;
+        color: var(--text-color);
+        border: 2px solid var(--primary-color);
+    }
+    .login-btn:hover, .login-btn:focus {
+        background: rgba(37, 99, 235, 0.2);
+    }
+    .signup-btn {
+        background: var(--accent-gradient);
+        color: var(--text-color);
+    }
+    .signup-btn:hover, .signup-btn:focus {
+        box-shadow: 0 0 10px var(--glow-color);
+    }
+    .home-btn {
+        background: #fff1;
+        color: var(--primary-color);
+        border: 2px solid var(--primary-color);
+    }
+    .home-btn:hover, .home-btn:focus {
+        background: var(--primary-color);
+        color: #fff;
+    }
+    .exit-btn {
+        background: #f87171;
+        color: #fff;
+        display: none;
+    }
+    .exit-btn:hover, .exit-btn:focus {
+        background: #ef4444;
+    }
+    .setup-container {
+        max-width: 600px;
+        width: 95vw;
+        margin: 60px auto 0 auto;
+        background: var(--card-bg);
+        border: 1.5px solid var(--card-border);
+        border-radius: 14px;
+        box-shadow: 0 2px 8px var(--glow-color);
+        padding: 24px 24px 18px 24px;
+        display: flex;
+        flex-direction: column;
+        gap: 14px;
+        align-items: stretch;
+    }
+    .setup-container h1 {
+        color: var(--primary-color);
+        background: var(--accent-gradient);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 8px var(--glow-color);
+        font-size: 1.7em;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+    .players-list {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        width: 100%;
+    }
+    .player-input-row {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 0;
+    }
+    .player-name {
+        width: 100%;
+        box-sizing: border-box;
+        padding: 10px 14px;
+        font-size: 1.1em;
+        border: 1px solid var(--card-border);
+        border-radius: 8px;
+        background: rgba(30, 41, 59, 0.98);
+        color: var(--text-color);
+        margin-bottom: 0;
+    }
+    .remove-player-btn {
+        background: #ef4444;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 28px;
+        height: 28px;
+        font-size: 1.1em;
+        font-weight: bold;
+        margin-left: 8px;
+        cursor: pointer;
+        transition: background 0.2s;
+        vertical-align: middle;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .remove-player-btn:hover, .remove-player-btn:focus {
+        background: #dc2626;
+    }
+    .add-player-btn {
+        background: var(--accent-gradient);
+        color: var(--text-color);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        padding: 10px 0;
+        font-weight: 600;
+        font-size: 1.1em;
+        margin-top: 2px;
+        width: 100%;
+    }
+    .add-player-btn:hover, .add-player-btn:focus {
+        background: var(--primary-color);
+        color: #fff;
+    }
+    .game-settings {
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        flex-wrap: wrap;
+        justify-content: center;
+        margin-bottom: 0;
+    }
+    .game-settings label {
+        font-size: 1.1em;
+        color: var(--text-color);
+    }
+    .game-settings input {
+        padding: 8px;
+        font-size: 1.1em;
+        border: 1px solid var(--card-border);
+        border-radius: 7px;
+        width: 70px;
+        text-align: center;
+        background: rgba(30, 41, 59, 0.98);
+        color: var(--text-color);
+    }
+    .setup-container .main-btn {
+        width: 100%;
+        display: block;
+        margin: 16px auto 0 auto;
+        background: var(--primary-color);
+        color: var(--text-color);
+        border: none;
+        border-radius: 8px;
+        padding: 12px 0;
+        font-weight: 700;
+        font-size: 1.2em;
+        cursor: pointer;
+        box-sizing: border-box;
+    }
+    .setup-container .main-btn:hover, .setup-container .main-btn:focus {
+        background: var(--accent-gradient);
+        color: #fff;
+    }
+    #game-header {
+        text-align: center;
+        background: var(--accent-gradient);
+        color: white;
+        padding: 12px 10px 8px 10px;
+        margin-top: 0;
+        margin-bottom: 20px;
+        border-radius: 10px;
+        width: 100%;
+        max-width: 600px;
+        box-sizing: border-box;
+        font-size: 1.2em;
+    }
+    #players-scores {
+        width: 100%;
+        max-width: 600px;
+        margin-bottom: 20px;
+    }
+    .players-carousel {
+        display: flex;
+        justify-content: center; 
+        align-items: center; 
+        gap: 20px;
+        padding: 10px;
+        overflow-x: auto;
+        scroll-behavior: smooth;
+    }
+    .player-card {
+        flex: 0 0 auto;
+        min-width: 150px;
+        max-width: 200px; 
+        padding: 10px;
+        background: rgba(30,41,59,0.98);
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+        text-align: center;
+        transition: transform 0.3s;
+        border: 1.5px solid rgba(59,130,246,0.3);
+        color: #f8fafc;
+        height: auto;
+    }
+    .player-card.active-player {
+        border: 2px solid #60a5fa;
+        transform: scale(1.05);
+        background: linear-gradient(135deg, #1e293b 80%, #2563eb 100%);
+    }
+    .player-header h2 {
+        font-size: 1.2em;
+        margin-bottom: 5px;
+        color: #60a5fa;
+    }
+    .player-header .player-score {
+        font-size: 1.8em;
+        font-weight: bold;
+        color: #60a5fa;
+        margin-top: 10px;
+    }
+    .player-stats .stat-row {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 5px;
+        font-size: 0.9em;
+    }
+    .player-stats .stat-label {
+        font-weight: bold;
+        color: #93c5fd;
+    }
+    .typed-score-box {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        max-width: 100%;
+        margin: 4px auto  auto;
+        padding: 10px;
+        font-size: 1.7em;
+        font-weight: bold;
+        color: #60a5fa;
+        background: rgba(30,41,59,0.98);
+        border: 2px solid #2563eb;
+        border-radius: 10px;
+        text-align: center;
+        box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+    }
+    .finish-section {
+        margin: 0 auto 10px auto;
+        text-align: center;
+        font-size: 1.1em;
+        color: var(--secondary-color);
+        min-height: 1.2em;
+        font-weight: 600;
+        background: none;
+    }
+    .game-container {
+        width: 100%;
+        max-width: 600px;
+        background: rgba(15,23,42,0.85);
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        height: auto;
+    }
+    .input-section {
+        text-align: center;
+        width: 100%;
+    }
+    #number-pad {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin: 0 auto;
+        width: 100%;
+        max-width: 300px; 
+        height: auto;
+    }
+    .num-row {
+        display: flex;
+        gap: 10px;
+    }
+    .num-row button {
+        flex: 1;
+        padding: 25px; 
+        font-size: 1.5em; 
+        border: none;
+        border-radius: 8px;
+        background: linear-gradient(135deg, #1e293b, #2563eb 80%);
+        color: #f8fafc;
+        cursor: pointer;
+        transition: background-color 0.2s, color 0.2s;
+        box-shadow: 0 2px 8px rgba(59,130,246,0.10);
+    }
+    .num-row button:hover {
+        background: #2563eb;
+        color: #fff;
+    }
+    #number-pad .clear {
+        background: #ef4444;
+        color: white;
+    }
+    #number-pad .submit {
+        background: #22c55e;
+        color: white;
+    }
+    @media (max-width: 768px) {
+        #game-header h1 {
+            font-size: 1.2em;
+        }
+        .player-card {
+            min-width: 120px;
+            font-size: 0.9em;
+        }
+        .typed-score-box {
+            font-size: 2em;
+        }
+        #number-pad {
+            max-width: 280px;
+        }
+        .num-row button {
+            padding: 20px;
+            font-size: 1.3em;
+        }
+    }
+    @media (max-width: 480px) {
+        .player-card {
+            min-width: 100px;
+        }
+        .player-header h2 {
+            font-size: 1em;
+        }
+        .typed-score-box {
+            font-size: 1.5em;
+        }
+        #number-pad {
+            max-width: 260px;
+        }
+        .num-row button {
+            padding: 18px;
+            font-size: 1.2em;
+        }
+    }
+
+    @media (max-width: 600px) {
+        .auth-buttons {
+            position: fixed;
+            top: auto;
+            bottom: 0;
+            right: 0;
+            left: 0;
+            width: 100vw;
+            justify-content: space-around;
+            flex-direction: row;
+            background: rgba(30,41,59,0.98);
+            padding: 2px 0 2px 0;
+            box-shadow: 0 -2px 8px rgba(59,130,246,0.10);
+            z-index: 100;
+        }
+        .auth-button, .exit-btn {
+            flex: 1 1 0;
+            margin: 0 2px;
+            font-size: 0.85em;
+            padding: 6px 0;
+            border-radius: 7px;
+        }
+    }
+
+    .typed-score-box {
+        margin-bottom: 2px;
+        margin-top: 0;
+        padding: 4px 8px;
+    }
+    .input-section {
+        margin-top: 0;
+        padding-top: 0;
+    }
+    #number-pad {
+        margin-top: 0;
+    }
+    </style>
+</head>
+<body>
+    <div class="auth-buttons" id="auth-buttons">
+        <button class="auth-button home-btn" id="home-btn">Home</button>
+        <button class="auth-button login-btn" id="login-btn">Login</button>
+        <button class="auth-button signup-btn" id="signup-btn">Sign Up</button>
+        <button class="exit-btn" id="exit-btn" style="display:none;">Exit Game</button>
+    </div>
+    <div class="setup-container" id="setup-ui" role="form" aria-labelledby="setup-title">
+        <h1 id="setup-title" tabindex="0">Darts Tracker</h1>
+        <form id="setup-form" autocomplete="off">
+            <div class="players-list" id="players-container">
+                <!-- Player inputs rendered by JS -->
+            </div>
+            <fieldset class="game-settings" aria-label="Game Settings">
+                <legend class="visually-hidden">Game Settings</legend>
+                <label for="legs">Legs:</label>
+                <input type="number" id="legs" value="1" min="1" aria-label="Number of Legs">
+                <label for="score">Score:</label>
+                <input type="number" id="score" value="501" min="1" aria-label="Starting Score">
+            </fieldset>
+            <button type="submit" class="main-btn" id="start-game-btn" aria-label="Start Game">Start Game</button>
+        </form>
+    </div>
+    <div id="game-ui" style="display:none;">
+        <div id="game-header">
+            <h1><span id="game-type">501</span> - Leg <span id="current-leg">1</span>/<span id="total-legs">3</span></h1>
+        </div>
+        <div id="players-scores"></div>
+        <div class="game-container"></div>
+    </div>
+    <div id="game-end-modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000;">
+        <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); background: #1e293b; color: #f8fafc; padding: 20px; border-radius: 10px; text-align: center; border: 2px solid #2563eb;">
+            <h2 id="winner-text"></h2>
+            <button id="restart-btn" style="padding: 10px 20px; margin-top: 20px; background: #2563eb; color: white; border: none; border-radius: 5px; cursor: pointer;">New Game</button>
+        </div>
+    </div>
+  <script src="/static/js/auth-modal.js"></script>
+  <script src="/static/js/profile-modal.js"></script>
+<script>
+let gameState = null;
+let currentScore = '';
+let playerCount = 1;
+window.playerNames = [''];
+
+// --- Player Input Rendering with Remove ---
+function renderPlayerInputs() {
+    const container = document.getElementById('players-container');
+    container.innerHTML = '';
+    for (let i = 1; i <= playerCount; i++) {
+        const row = document.createElement('div');
+        row.className = 'player-input-row';
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.className = 'player-name';
+        input.placeholder = `Player ${i}`;
+        input.id = `player-${i}`;
+        input.setAttribute('aria-label', `Player ${i} Name`);
+        input.autocomplete = 'off';
+
+        // Restore value if exists
+        if (window.playerNames && window.playerNames[i - 1]) {
+            input.value = window.playerNames[i - 1];
+        }
+
+        row.appendChild(input);
+
+        // Add remove button for all except the first player
+        if (i > 1) {
+            const removeBtn = document.createElement('button');
+            removeBtn.type = 'button';
+            removeBtn.className = 'remove-player-btn';
+            removeBtn.setAttribute('aria-label', `Remove Player ${i}`);
+            removeBtn.innerHTML = '&times;';
+            removeBtn.onclick = function () {
+                removePlayer(i - 1);
+            };
+            row.appendChild(removeBtn);
+        }
+        container.appendChild(row);
+    }
+
+    // Add Player button at the end
+    const addBtn = document.createElement('button');
+    addBtn.type = 'button';
+    addBtn.className = 'add-player-btn';
+    addBtn.id = 'add-player-btn';
+    addBtn.setAttribute('aria-label', 'Add Player');
+    addBtn.textContent = 'Add Player';
+    addBtn.onclick = function () {
+        savePlayerNames();
+        playerCount++;
+        renderPlayerInputs();
+        setTimeout(() => {
+            document.getElementById(`player-${playerCount}`).focus();
+        }, 50);
+    };
+    container.appendChild(addBtn);
+}
+
+// Helper to save names before re-rendering
+function savePlayerNames() {
+    window.playerNames = [];
+    for (let i = 1; i <= playerCount; i++) {
+        const input = document.getElementById(`player-${i}`);
+        window.playerNames.push(input ? input.value : '');
+    }
+}
+
+// Remove player at index
+function removePlayer(index) {
+    savePlayerNames();
+    window.playerNames.splice(index, 1);
+    playerCount--;
+    renderPlayerInputs();
+}
+
+// --- End Player Input Rendering ---
+
+document.getElementById('login-btn').onclick = function(e) {
+    e.preventDefault();
+    if (typeof showAuthModal === "function") showAuthModal('login');
+};
+document.getElementById('signup-btn').onclick = function(e) {
+    e.preventDefault();
+    if (typeof showAuthModal === "function") showAuthModal('signup');
+};
+document.getElementById('home-btn').onclick = function(e) {
+    e.preventDefault();
+    window.location.href = '/';
+};
+document.getElementById('exit-btn').onclick = function() {
+    goHome();
+};
+
+function goHome() {
+    document.getElementById('setup-ui').style.display = 'flex';
+    document.getElementById('game-ui').style.display = 'none';
+    document.getElementById('exit-btn').style.display = 'none';
+    document.getElementById('game-end-modal').style.display = 'none';
+    localStorage.removeItem('gameState');
+    playerCount = 1;
+    window.playerNames = [''];
+    renderPlayerInputs();
+    currentScore = '';
+    gameState = null;
+    window.location.reload();
+}
+
+document.getElementById('setup-form').onsubmit = (e) => {
+    e.preventDefault();
+    document.getElementById('start-game-btn').click();
+};
+
+document.getElementById('start-game-btn').onclick = (e) => {
+    if (e) e.preventDefault();
+    savePlayerNames();
+    const gamePoints = document.getElementById('score').value;
+    const legs = document.getElementById('legs').value;
+    const players = (window.playerNames || [])
+        .map(name => name.trim())
+        .filter(name => name !== '')
+        .map(name => ({
+            name,
+            score: parseInt(gamePoints),
+            average: 0,
+            throws: [],
+            legsWon: 0
+        }));
+    if (players.length < 1) {
+        alert('Please enter at least one player.');
+        return;
+    }
+    gameState = {
+        gamePoints: parseInt(gamePoints),
+        legs: parseInt(legs),
+        currentLeg: 1,
+        players,
+        currentPlayerIndex: 0
+    };
+    localStorage.setItem('gameState', JSON.stringify(gameState));
+    document.getElementById('setup-ui').style.display = 'none';
+    document.getElementById('game-ui').style.display = 'block';
+    document.getElementById('exit-btn').style.display = 'inline-block';
+    renderGameInterface();
+    updateGameHeader();
+    setTimeout(() => {
+        const firstPadBtn = document.querySelector('#number-pad button');
+        if (firstPadBtn) firstPadBtn.focus();
+    }, 100);
+};
+
+document.getElementById('restart-btn').onclick = () => {
+    document.getElementById('game-end-modal').style.display = 'none';
+    goHome();
+};
+
+function showGameUI() {
+    document.getElementById('setup-ui').style.display = 'none';
+    document.getElementById('game-ui').style.display = 'block';
+    document.getElementById('exit-btn').style.display = 'inline-block';
+    renderGameInterface();
+    updateGameHeader();
+}
+
+function updateGameHeader() {
+    if (!gameState) gameState = JSON.parse(localStorage.getItem('gameState'));
+    document.getElementById('game-type').textContent = gameState.gamePoints;
+    document.getElementById('current-leg').textContent = gameState.currentLeg;
+    document.getElementById('total-legs').textContent = gameState.legs;
+}
+
+function renderPlayers() {
+    const container = document.getElementById('players-scores');
+    container.innerHTML = '<div class="players-carousel"></div>';
+    const carousel = container.querySelector('.players-carousel');
+    const prevIndex = (gameState.currentPlayerIndex - 1 + gameState.players.length) % gameState.players.length;
+    const nextIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
+    [prevIndex, gameState.currentPlayerIndex, nextIndex].forEach((playerIndex) => {
+        const player = gameState.players[playerIndex];
+        const playerCard = document.createElement('div');
+        playerCard.className = `player-card ${playerIndex === gameState.currentPlayerIndex ? 'active-player' : ''}`;
+        const finishes = calculateFinishes(player.score);
+        const finishDisplay = finishes.length > 0 ? finishes[0] : 'No finish';
+        playerCard.innerHTML = `
+            <div class="player-header">
+                <h2 class="player-name">${player.name}</h2>
+                <div class="player-score">${player.score}</div>
+            </div>
+            <div class="player-stats">
+                <div class="stat-row">
+                    <span class="stat-label">Legs Won:</span>
+                    <span class="stat-value">${player.legsWon || 0}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Average:</span>
+                    <span class="stat-value">${calculateAverage(player.throws)}</span>
+                </div>
+                <div class="stat-row">
+                    <span class="stat-label">Finish:</span>
+                    <span class="stat-value">${finishDisplay}</span>
+                </div>
+            </div>
+        `;
+        carousel.appendChild(playerCard);
+    });
+}
+
+function calculateFinishes(score) {
+    if (score > 170 || score < 2) return [];
+    const singles = Array.from({length: 20}, (_, i) => i + 1);
+    const doubles = singles.map(x => x * 2).reverse(); 
+    const triples = singles.map(x => x * 3).reverse();
+    const bull = 25;
+    const dBull = 50;
+    let finishes = [];
+    if (score % 2 === 0 && score <= 40) {
+        finishes.push(`D${score/2}`);
+        return finishes;
+    }
+    if (score === 50) {
+        finishes.push('Bull');
+        return finishes;
+    }
+    for (let double of doubles) {
+        let remaining = score - double;
+        if (remaining > 0) {
+            if (singles.includes(remaining) || triples.includes(remaining) || remaining === bull || remaining === dBull) {
+                const remainingStr = remaining > 25 ? 
+                    (remaining % 3 === 0 ? `T${remaining/3}` : remaining.toString()) : 
+                    (remaining === 25 ? 'Bull' : remaining.toString());
+                finishes.push(`${remainingStr} D${double/2}`);
+                if (finishes.length >= 3) return finishes;
+            }
+        }
+    }
+    for (let double of doubles) {
+        for (let first of [...triples, ...singles, bull]) {
+            let remaining = score - first - double;
+            if (remaining > 0 && (singles.includes(remaining) || triples.includes(remaining) || remaining === bull)) {
+                const firstStr = first > 25 ? `T${Math.floor(first/3)}` : first === 25 ? 'Bull' : first.toString();
+                const remainingStr = remaining > 25 ? `T${Math.floor(remaining/3)}` : remaining === 25 ? 'Bull' : remaining.toString();
+                finishes.push(`${firstStr} ${remainingStr} D${double/2}`);
+                if (finishes.length >= 3) return finishes;
+            }
+        }
+    }
+    return finishes;
+}
+
+function setupNumberPad() {
+    document.querySelectorAll('#number-pad button').forEach(button => {
+        button.addEventListener('click', () => {
+            if (button.classList.contains('clear')) {
+                currentScore = '';
+            } else if (button.classList.contains('submit')) {
+                submitScore();
+            } else {
+                if (currentScore.length < 3) {
+                    currentScore += button.textContent;
+                }
+            }
+            updateScoreDisplay();
+        });
+    });
+}
+
+function calculateAverage(throws) {
+    if (throws.length === 0) return 0;
+    return (throws.reduce((a, b) => a + b, 0) / throws.length).toFixed(1);
+}
+
+function submitScore() {
+    const score = parseInt(currentScore);
+    if (isValidScore(score)) {
+        const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+        currentPlayer.throws.push(score);
+        currentPlayer.score -= score;
+        if (currentPlayer.score === 0) {
+            handleLegWin();
+        } else {
+            nextPlayer();
+        }
+        currentScore = '';
+        saveAndUpdateGame();
+    }
+}
+
+function isValidScore(score) {
+    return !isNaN(score) &&
+           score >= 0 && 
+           score <= 180 && 
+           score <= gameState.players[gameState.currentPlayerIndex].score;
+}
+
+function nextPlayer() {
+    gameState.currentPlayerIndex = 
+        (gameState.currentPlayerIndex + 1) % gameState.players.length;
+}
+
+function handleLegWin() {
+    const currentPlayer = gameState.players[gameState.currentPlayerIndex];
+    currentPlayer.legsWon = (currentPlayer.legsWon || 0) + 1;
+    if (gameState.currentLeg < gameState.legs) {
+        gameState.currentLeg++;
+        resetScores();
+    } else {
+        const legsWon = gameState.players.map(player => player.legsWon || 0);
+        const maxLegsWon = Math.max(...legsWon);
+        const winners = legsWon.filter(legs => legs === maxLegsWon);
+        const modal = document.getElementById('game-end-modal');
+        const winnerText = document.getElementById('winner-text');
+        if (winners.length > 1) {
+            winnerText.textContent = `Game Over! It's a draw! Both players won ${maxLegsWon} legs.`;
+        } else {
+            const winner = gameState.players[gameState.currentPlayerIndex];
+            winnerText.textContent = `Game Over! ${winner.name} wins!`;
+        }
+        modal.style.display = 'block';
+    }
+}
+
+function resetScores() {
+    gameState.players.forEach(player => {
+        player.score = parseInt(gameState.gamePoints);
+        player.throws = [];
+    });
+    nextPlayer();
+}
+
+function saveAndUpdateGame() {
+    localStorage.setItem('gameState', JSON.stringify(gameState));
+    renderPlayers();
+    updateGameHeader();
+    updateScoreDisplay();
+}
+
+function updateScoreDisplay() {
+    const display = document.querySelector('.typed-score-box');
+    if (display) display.textContent = currentScore || '0';
+    // Show finish section below the score box
+    const finishBox = document.querySelector('.finish-section');
+    if (finishBox) {
+        finishBox.textContent = '';
+    }
+}
+
+function renderGameInterface() {
+    const container = document.querySelector('.game-container');
+    container.innerHTML = `
+        <div class="typed-score-box">0</div>
+        <div class="finish-section"></div>
+        <div class="players-carousel"></div>
+        <div class="input-section">
+            <div id="number-pad">
+                <div class="num-row">
+                    <button>7</button>
+                    <button>8</button>
+                    <button>9</button>
+                </div>
+                <div class="num-row">
+                    <button>4</button>
+                    <button>5</button>
+                    <button>6</button>
+                </div>
+                <div class="num-row">
+                    <button>1</button>
+                    <button>2</button>
+                    <button>3</button>
+                </div>
+                <div class="num-row">
+                    <button>0</button>
+                    <button class="clear">C</button>
+                    <button class="submit">✓</button>
+                </div>
+            </div>
+        </div>
+    `;
+    renderPlayers();
+    setupNumberPad();
+    updateScoreDisplay();
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    if (localStorage.getItem('gameState')) {
+        gameState = JSON.parse(localStorage.getItem('gameState'));
+        document.getElementById('setup-ui').style.display = 'none';
+        document.getElementById('game-ui').style.display = 'block';
+        document.getElementById('exit-btn').style.display = 'inline-block';
+        renderGameInterface();
+        updateGameHeader();
+    } else {
+        document.getElementById('setup-ui').style.display = 'flex';
+        document.getElementById('game-ui').style.display = 'none';
+        document.getElementById('exit-btn').style.display = 'none';
+        playerCount = 1;
+        window.playerNames = [''];
+        renderPlayerInputs();
+    }
+});
+</script>
+</body>
+</html>

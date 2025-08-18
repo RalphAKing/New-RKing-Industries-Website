@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>404 Not Found | RKing Industries</title>
+  <link rel="icon" href="../static/images/logo.svg" type="image/icon type">
+  <style>
+    :root {
+      --primary-color: #2563eb;
+      --secondary-color: #1e40af;
+      --text-color: #f8fafc;
+      --background-gradient: linear-gradient(135deg, #1e293b, #0f172a);
+      --accent-gradient: linear-gradient(45deg, #60a5fa, #3b82f6);
+      --glow-color: rgba(59, 130, 246, 0.4);
+      --card-bg: rgba(15, 23, 42, 0.8);
+      --card-border: rgba(59, 130, 246, 0.3);
+    }
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Arial', sans-serif;
+      background: var(--background-gradient);
+      color: var(--text-color);
+      min-height: 100vh;
+      overflow-x: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    #particles-js {
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      top: 0;
+      left: 0;
+      z-index: 1;
+      pointer-events: none;
+    }
+    .container-404 {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      width: 100vw;
+      padding: 30px 10px 10px 10px;
+      box-sizing: border-box;
+    }
+    .logo-404 {
+      width: 220px;
+      max-width: 60vw;
+      filter: drop-shadow(0 0 12px var(--glow-color));
+      margin-bottom: 20px;
+      animation: subtle-pulse 4s infinite alternate;
+    }
+    @keyframes subtle-pulse {
+      0% { filter: drop-shadow(0 0 8px var(--glow-color)); }
+      100% { filter: drop-shadow(0 0 15px var(--glow-color)); }
+    }
+    .error-title {
+      font-size: 64px;
+      font-weight: 900;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-shadow: 0 0 12px rgba(96, 165, 250, 0.3);
+      margin: 0 0 10px 0;
+      text-align: center;
+    }
+    .error-message {
+      font-size: 22px;
+      font-weight: 600;
+      margin-bottom: 30px;
+      text-align: center;
+      color: var(--text-color);
+      text-shadow: 0 0 8px rgba(96, 165, 250, 0.2);
+    }
+    .back-home {
+      display: inline-block;
+      margin-bottom: 30px;
+      padding: 12px 28px;
+      background: var(--accent-gradient);
+      color: var(--text-color);
+      text-decoration: none;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 18px;
+      box-shadow: 0 4px 15px rgba(59,130,246,0.3);
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .back-home:hover {
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 8px 20px rgba(59,130,246,0.5);
+    }
+    .game-card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 12px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      padding: 24px 18px 18px 18px;
+      margin-top: 10px;
+      max-width: 400px;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    .game-title {
+      font-size: 22px;
+      font-weight: 700;
+      margin-bottom: 10px;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+    .game-instructions {
+      font-size: 15px;
+      color: rgba(248,250,252,0.8);
+      margin-bottom: 10px;
+      text-align: center;
+    }
+    #game-canvas {
+      background: linear-gradient(135deg, #1e293b 60%, #0f172a 100%);
+      border-radius: 8px;
+      border: 1px solid var(--card-border);
+      box-shadow: 0 2px 8px rgba(59,130,246,0.15);
+      display: block;
+      margin: 0 auto 10px auto;
+    }
+    .score-label {
+      font-size: 16px;
+      color: var(--text-color);
+      margin-bottom: 5px;
+      text-align: center;
+    }
+    @media (max-width: 600px) {
+      .error-title { font-size: 38px; }
+      .logo-404 { width: 120px; }
+      .game-card { max-width: 98vw; padding: 12px 4px 10px 4px; }
+      #game-canvas { width: 98vw !important; max-width: 320px !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="particles-js"></div>
+  <div class="container-404">
+    <div class="error-title">404</div>
+    <div class="error-message">
+      Oops! The page you're looking for doesn't exist.<br>
+      But you can play a quick game while you're here!
+    </div>
+    <a href="/" class="back-home">← Back to Home</a>
+    <div class="game-card">
+      <div class="game-title">Dodge the Falling Blocks</div>
+      <div class="game-instructions">
+        Move with <b>←</b> and <b>→</b> (or touch/drag).<br>
+        Avoid the blue blocks as long as you can!
+      </div>
+      <div class="score-label" id="score-label">Score: 0</div>
+      <canvas id="game-canvas" width="320" height="420"></canvas>
+      <div class="score-label" id="game-over-label" style="display:none;"></div>
+    </div>
+  </div>
+  <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+  <script>
+    // Particles.js config (same as main site)
+    particlesJS('particles-js', {
+      "particles": {
+        "number": {
+          "value": window.innerWidth <= 768 ? 25 : 60,
+          "density": { "enable": true, "value_area": 800 }
+        },
+        "color": { "value": "#3b82f6" },
+        "shape": { "type": "circle", "stroke": { "width": 0, "color": "#000" } },
+        "opacity": {
+          "value": 0.4, "random": true,
+          "anim": { "enable": true, "speed": 0.8, "opacity_min": 0.1, "sync": false }
+        },
+        "size": {
+          "value": 2.5, "random": true,
+          "anim": { "enable": true, "speed": 1.5, "size_min": 0.1, "sync": false }
+        },
+        "line_linked": {
+          "enable": true, "distance": 150, "color": "#60a5fa", "opacity": 0.3, "width": 1
+        },
+        "move": {
+          "enable": true, "speed": 0.8, "direction": "none", "random": true,
+          "straight": false, "out_mode": "out", "bounce": false,
+          "attract": { "enable": false, "rotateX": 600, "rotateY": 1200 }
+        }
+      },
+      "interactivity": {
+        "detect_on": "canvas",
+        "events": {
+          "onhover": { "enable": true, "mode": "grab" },
+          "onclick": { "enable": true, "mode": "push" },
+          "resize": true
+        },
+        "modes": {
+          "grab": { "distance": 140, "line_linked": { "opacity": 0.6 } },
+          "push": { "particles_nb": 3 }
+        }
+      },
+      "retina_detect": true
+    });
+
+    // --- Game Logic ---
+    // --- Game Logic ---
+const canvas = document.getElementById('game-canvas');
+const ctx = canvas.getContext('2d');
+const scoreLabel = document.getElementById('score-label');
+const gameOverLabel = document.getElementById('game-over-label');
+
+// Responsive canvas
+function resizeCanvas() {
+  if (window.innerWidth < 400) {
+    canvas.width = Math.min(window.innerWidth * 0.98, 320);
+  } else {
+    canvas.width = 320;
+  }
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
+
+// Game variables
+let player = { x: 140, y: 370, w: 40, h: 18, speed: 5, dx: 0 };
+let blocks = [];
+let blockTimer = 0;
+let blockInterval = 60; // frames
+let score = 0;
+let gameOver = false;
+let frame = 0;
+
+function resetGame() {
+  player.x = (canvas.width - player.w) / 2;
+  player.y = canvas.height - 50;
+  blocks = [];
+  blockTimer = 0;
+  blockInterval = 60;
+  score = 0;
+  gameOver = false;
+  frame = 0;
+  scoreLabel.textContent = "Score: 0";
+  gameOverLabel.style.display = "none";
+}
+
+function drawPlayer() {
+  ctx.save();
+  ctx.shadowColor = "#60a5fa";
+  ctx.shadowBlur = 8;
+  ctx.fillStyle = "#3b82f6";
+  ctx.fillRect(player.x, player.y, player.w, player.h);
+  ctx.restore();
+}
+
+function drawBlocks() {
+  blocks.forEach(b => {
+    ctx.save();
+    ctx.shadowColor = "#60a5fa";
+    ctx.shadowBlur = 6;
+    ctx.fillStyle = "#2563eb";
+    ctx.fillRect(b.x, b.y, b.w, b.h);
+    ctx.restore();
+  });
+}
+
+function updateBlocks() {
+  for (let b of blocks) {
+    b.y += b.speed;
+  }
+  // Remove off-screen blocks
+  blocks = blocks.filter(b => b.y < canvas.height + 30);
+}
+
+function spawnBlock() {
+  // Difficulty scaling
+  // As score increases, min/max speed and spawn rate increase
+  let difficulty = Math.min(score / 100, 2.5); // max out at 2.5
+  let minSpeed = 2.2 + difficulty * 1.2; // from 2.2 up to ~5.2
+  let maxSpeed = 4.0 + difficulty * 2.0; // from 4.0 up to ~9.0
+
+  const w = 40 + Math.random() * 30;
+  const x = Math.random() * (canvas.width - w);
+  // Random speed in range
+  const speed = minSpeed + Math.random() * (maxSpeed - minSpeed);
+  blocks.push({ x, y: -20, w, h: 18, speed });
+}
+
+function checkCollision(a, b) {
+  return (
+    a.x < b.x + b.w &&
+    a.x + a.w > b.x &&
+    a.y < b.y + b.h &&
+    a.y + a.h > b.y
+  );
+}
+
+function update() {
+  if (gameOver) return;
+  // Move player
+  player.x += player.dx;
+  if (player.x < 0) player.x = 0;
+  if (player.x + player.w > canvas.width) player.x = canvas.width - player.w;
+
+  // Difficulty scaling for spawn rate
+  // As score increases, blockInterval decreases (min 15)
+  let minInterval = 15;
+  let intervalDecrease = Math.floor(score / 30); // every 30 points, spawn faster
+  blockInterval = Math.max(60 - intervalDecrease * 4, minInterval);
+
+  // Spawn blocks
+  blockTimer++;
+  if (blockTimer >= blockInterval) {
+    spawnBlock();
+    blockTimer = 0;
+  }
+
+  updateBlocks();
+
+  // Check collisions
+  for (let b of blocks) {
+    if (checkCollision(player, b)) {
+      gameOver = true;
+      gameOverLabel.innerHTML =
+        "Game Over! Final Score: " + score +
+        "<br><span style='font-size:15px;'>Press Space or Tap to Restart</span>";
+      gameOverLabel.style.display = "block";
+    }
+  }
+
+  // Update score
+  if (!gameOver && frame % 6 === 0) {
+    score++;
+    scoreLabel.textContent = "Score: " + score;
+  }
+}
+
+function draw() {
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  drawPlayer();
+  drawBlocks();
+}
+
+function gameLoop() {
+  update();
+  draw();
+  frame++;
+  requestAnimationFrame(gameLoop);
+}
+
+// Controls
+document.addEventListener('keydown', e => {
+  if (gameOver && (e.key === " " || e.key === "Enter")) {
+    resetGame();
+  }
+  if (e.key === "ArrowLeft" || e.key === "a") player.dx = -player.speed;
+  if (e.key === "ArrowRight" || e.key === "d") player.dx = player.speed;
+});
+document.addEventListener('keyup', e => {
+  if (
+    e.key === "ArrowLeft" ||
+    e.key === "ArrowRight" ||
+    e.key === "a" ||
+    e.key === "d"
+  ) player.dx = 0;
+});
+
+// Touch controls
+let touchStartX = null;
+canvas.addEventListener('touchstart', e => {
+  if (gameOver) {
+    resetGame();
+    return;
+  }
+  if (e.touches.length === 1) {
+    touchStartX = e.touches[0].clientX;
+  }
+});
+canvas.addEventListener('touchmove', e => {
+  if (e.touches.length === 1 && touchStartX !== null) {
+    const delta = e.touches[0].clientX - touchStartX;
+    player.x += delta * 0.7;
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.w > canvas.width)
+      player.x = canvas.width - player.w;
+    touchStartX = e.touches[0].clientX;
+  }
+});
+canvas.addEventListener('touchend', e => {
+  touchStartX = null;
+});
+// Mouse drag for desktop
+let dragging = false;
+let dragOffset = 0;
+canvas.addEventListener('mousedown', e => {
+  if (gameOver) {
+    resetGame();
+    return;
+  }
+  const rect = canvas.getBoundingClientRect();
+  const mx = e.clientX - rect.left;
+  if (
+    mx >= player.x &&
+    mx <= player.x + player.w &&
+    e.clientY - rect.top >= player.y &&
+    e.clientY - rect.top <= player.y + player.h
+  ) {
+    dragging = true;
+    dragOffset = mx - player.x;
+  }
+});
+canvas.addEventListener('mousemove', e => {
+  if (dragging) {
+    const rect = canvas.getBoundingClientRect();
+    let mx = e.clientX - rect.left;
+    player.x = mx - dragOffset;
+    if (player.x < 0) player.x = 0;
+    if (player.x + player.w > canvas.width)
+      player.x = canvas.width - player.w;
+  }
+});
+canvas.addEventListener('mouseup', () => {
+  dragging = false;
+});
+canvas.addEventListener('mouseleave', () => {
+  dragging = false;
+});
+
+// Tap to restart
+canvas.addEventListener('click', () => {
+  if (gameOver) resetGame();
+});
+
+// Start game
+resetGame();
+gameLoop();
+  </script>
+</body>
+</html>
